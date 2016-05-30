@@ -1,0 +1,38 @@
+package edu.hsl.myappnewsday.common.util;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * Created by Administrator on 2016/5/30.
+ */
+public class PreserveUtil {
+    static SharedPreferences preferences;
+
+    public static void putString(Context context, String key, String value) {
+        preferences = getPreferences(context);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString(key, value);
+        edit.commit();
+    }
+
+    public static void putBoolean(Context context, String key, boolean value) {
+        preferences = getPreferences(context);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putBoolean(key, value);
+        edit.commit();
+    }
+
+    private static SharedPreferences getPreferences(Context context) {
+        if (preferences == null)
+            return context.getSharedPreferences("isNews", Context
+                    .MODE_PRIVATE);
+        return preferences;
+    }
+
+    public static boolean getBoolean(Context context, String key) {
+        preferences = getPreferences(context);
+        return preferences.getBoolean(key, true);
+    }
+
+}
