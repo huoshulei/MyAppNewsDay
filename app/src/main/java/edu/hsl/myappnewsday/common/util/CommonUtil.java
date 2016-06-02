@@ -5,7 +5,8 @@ package edu.hsl.myappnewsday.common.util;
  */
 public class CommonUtil {
     public static final String NETIP              = "118.244.212.82";
-    public static final String NETPATH            = "http//" + NETIP + ":9092/newsClient";
+    public static final String NETPATH            = "http://" + NETIP + ":9092/newsClient";
+    public static final String NETPATH_NEWS       = NETPATH + "/news_list";
     public static final String SHARE_USER_NAME    = "username";
     public static final String SHARE_USER_PWD     = "userpwd";
     public static final String SHARE_IS_FIRST_RUN = "isFirstRun";

@@ -2,7 +2,6 @@ package edu.hsl.myappnewsday.ui.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.Bundle;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.common.util.PreserveUtil;
@@ -18,22 +17,12 @@ public class LeadActivity extends BaseActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initView() {
         setContentView(R.layout.activity_lead);
         isFirstRun = PreserveUtil.getBoolean(getApplicationContext(), "isFirstRun");
-//        if (isFirstRun) {
         setDefaultFragment();
-//        } else {
-//            FragmentManager     manager     = getFragmentManager();
-//            FragmentTransaction transaction = manager.beginTransaction();
-//            cartoon = new CartoonFragment();
-//            transaction.replace(R.id.fl_lead, cartoon);
-//            transaction.commit();
-//        }
+        super.initView();
     }
-
-
 
     private void setDefaultFragment() {
         FragmentManager     manager     = getFragmentManager();

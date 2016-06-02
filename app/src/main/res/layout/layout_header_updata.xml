@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/iv_drop"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_drop_text"
+        android:src="@mipmap/xlistview_arrow"
+        android:visibility="visible"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignStart="@id/iv_drop"
+        android:layout_alignTop="@id/iv_drop"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/progressbar_rotate"
+        android:indeterminateDuration="600"
+        android:indeterminateOnly="true"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_drop_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:text="下拉刷新"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/tv_drop_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_drop"
+        android:layout_alignEnd="@+id/tv_drop_text"
+        android:textSize="14sp"/>
+</RelativeLayout>

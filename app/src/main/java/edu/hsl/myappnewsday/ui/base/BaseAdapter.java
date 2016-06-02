@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,9 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T, VH extends BaseAdapter.ViewHolder> extends RecyclerView
         .Adapter<VH> {
-    List<T> data = new ArrayList<>();
-    LayoutInflater mInflater;
+    private static final String  TAG  = "BaseAdapter";
+    public               List<T> data = new ArrayList<>();
+    public LayoutInflater mInflater;
 
     public BaseAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
@@ -49,18 +49,13 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.ViewHolder> extends 
         this.notifyDataSetChanged();
     }
 
-    @Override
-    public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
-
-    @Override
-    public abstract void onBindViewHolder(VH holder, int position);
 
     @Override
     public int getItemCount() {
         return data.size();
     }
 
-   public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
