@@ -3,7 +3,6 @@ package edu.hsl.myappnewsday.ui.activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -196,7 +195,6 @@ public class MainActivity extends BaseActivity {
                 x1 = event.getX();
                 y1 = event.getY();
                 praentX = fl_main.getLeft();
-                Log.d(TAG, "onTouchEvent: 1x按下" + x1);
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
@@ -222,13 +220,11 @@ public class MainActivity extends BaseActivity {
                         return false;
                     }
 
-                    Log.d(TAG, "onTouchEvent: 1x弹起" + x2);
 //                    return false;
                 }
                 break;
         }
 
-        Log.d(TAG, "dispatchTouchEvent: 我什么时候走的");
         return super.dispatchTouchEvent(event);
     }
 

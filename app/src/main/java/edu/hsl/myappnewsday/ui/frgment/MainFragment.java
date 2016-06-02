@@ -18,7 +18,6 @@ import edu.hsl.myappnewsday.bean.NewsBean;
 import edu.hsl.myappnewsday.ui.activity.MainActivity;
 import edu.hsl.myappnewsday.ui.adapter.NewsAdapter;
 
-;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +28,13 @@ public class MainFragment extends Fragment {
     MainActivity mMainActivity;
     int newsId = 0;//新闻分类id
     RecyclerView mRecyclerView;
-    NewsAdapter  adapter;
+    NewsAdapter        adapter;
+//    TextView           headerText;
+//    TextView           headerTime;
+//    ImageView          iv_header;
+//    ProgressBar        pb_header;
+//    TextView           tv_footer;
+
 //    GestureDetector mGestureDetector;
 //    int             width;
 //    LeftFragment    fragmentLeft;
@@ -144,6 +149,21 @@ public class MainFragment extends Fragment {
 //        mRecyclerView.setLayoutManager(layout);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layout
 //                .getOrientation(), true));
+//        View headerView = getActivity().getLayoutInflater().inflate(R.layout.layout_header_updata,
+//                null);
+//        headerText = (TextView) headerView.findViewById(R.id.tv_drop_text);
+//        headerTime = (TextView) headerView.findViewById(R.id.tv_drop_time);
+//        iv_header = (ImageView) headerView.findViewById(R.id.iv_drop);
+//        pb_header = (ProgressBar) headerView.findViewById(R.id.pb_drop);
+//
+//        View footerView = getActivity().getLayoutInflater().inflate(R.layout.layout_footer_updata,
+//                null);
+//        tv_footer = (TextView) footerView.findViewById(R.id.tv_load_bottom);
+//        mRecyclerView.addHeaderView(headerView);
+//        mRecyclerView.setScaleRatio(2.0f);
+//        mRecyclerView.setHeaderImage((ImageView) headerView.findViewById(R.id.iv_drop));
+//        mRecyclerView.addFootView(footerView);
+//        mRecyclerView.setColor(Color.RED, Color.BLUE);
         adapter = new NewsAdapter(getActivity());
         mRecyclerView.setAdapter(adapter);
 
@@ -160,17 +180,17 @@ public class MainFragment extends Fragment {
 //        tv_drop_time = (TextView) mView.findViewById(R.id.tv_drop_time);
 //        mRecyclerView.addView(mView);
 //        adapter.upData();adapter.upData();
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//            }
+//        });
         super.onResume();
     }
 
@@ -189,7 +209,7 @@ public class MainFragment extends Fragment {
             protected void onPostExecute(String s) {
                 NewsBean bean = mMainActivity.mJsonUtil.getNewsBean(s);
                 adapter.add(bean.getData());
-                adapter.upData();
+               adapter.upData();
                 super.onPostExecute(s);
             }
         }.execute(uri);

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp">
-
+                android:layout_height="80dp">
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:id="@+id/iv_drop1"-->
+        <!--android:src="@mipmap/logo"-->
+        <!--android:layout_height="80dp"/>-->
     <ImageView
         android:id="@+id/iv_drop"
         android:layout_width="70dp"
@@ -14,6 +17,7 @@
         android:visibility="visible"/>
 
     <ProgressBar
+        android:id="@+id/pb_drop"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="70dp"
         android:layout_height="70dp"
