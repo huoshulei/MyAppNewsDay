@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="30dp"
-              android:background="#ffffff">
+<!--<edu.hsl.myappnewsday.view.FooterView-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="60dp"-->
+<!--android:padding="5dp">-->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:padding="5dp">
+
+    <ProgressBar
+        android:id="@+id/pb_load"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/progressbar_rotate"
+        android:indeterminateDuration="600"
+        android:indeterminateOnly="true"
+        android:visibility="invisible"
+        android:layout_toLeftOf="@+id/tv_load_bottom"/>
 
     <TextView
         android:id="@+id/tv_load_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="#ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="加载更多信息"
-        android:textColor="#ffffff"/>
-</LinearLayout>
+        android:textColor="#b1b1b1"
+        android:textSize="18sp"/>
+</RelativeLayout>
+    <!--</edu.hsl.myappnewsday.view.FooterView>-->

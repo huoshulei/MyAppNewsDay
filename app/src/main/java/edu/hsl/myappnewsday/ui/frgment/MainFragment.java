@@ -5,13 +5,22 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dgreenhalgh.android.simpleitemdecoration.linear.DividerItemDecoration;
+import com.sch.rfview.manager.AnimRFLinearLayoutManager;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.bean.NewsBean;
@@ -27,8 +36,13 @@ public class MainFragment extends Fragment {
 
     MainActivity mMainActivity;
     int newsId = 0;//新闻分类id
-    RecyclerView mRecyclerView;
+    RecyclerView       mRecyclerView;
     NewsAdapter        adapter;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    int lastVisibleItem = 0;//最后一条显示信息的索引
+    LinearLayoutManager layoutManager;
+    RequestQueue        mQueue;
+//    SwipeToLoadLayout mSwipeToLoadLayout;
 //    TextView           headerText;
 //    TextView           headerTime;
 //    ImageView          iv_header;
@@ -51,22 +65,30 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * 获得新闻类型id
+     * RequestQueue对象
+     * MainActivity对象
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(getActivity());
+        mMainActivity = (MainActivity) getActivity();
+        newsId = mMainActivity.newsId;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_main, container, false);
-        mMainActivity = (MainActivity) getActivity();
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_news_item);
 //        mGestureDetector = new GestureDetector(getActivity(), new MyOnGestureListener());
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //        width = metrics.widthPixels;
-        newsId = mMainActivity.newsId;
-        initData(mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"));
-        initView();
+
 //        BaseActivity.TouchListener listener = new BaseActivity.TouchListener() {
 //            @Override
 //            public void onTouchEvent(MotionEvent event) {
@@ -136,15 +158,52 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    /**
+     * 初始化数据
+     * 上拉加载事件
+     * item点击事件
+     */
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.stll_main);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_news_item);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_news);
+        initData(mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"));
+        initView();
+//        mSwipeToLoadLayout.setOnRefreshListener(getRefreshListener());
+//        mSwipeToLoadLayout.setOnLoadMoreListener(getLoadListener());
+        mRecyclerView.addOnScrollListener(getScrollListener());
+        adapter.setOnItemClickListener(getOnItemClickListener());
+    }
+
+    /**
+     * Item点击事件
+     */
+    @NonNull
+    private NewsAdapter.OnItemClickListener getOnItemClickListener() {
+        return new NewsAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                Toast.makeText(mMainActivity, position + ">>>>个刘承宇", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    /**
+     * 设置布局方向
+     * item 间距
+     * 下拉刷新事件
+     */
     @TargetApi(23)
     public void initView() {
         mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity().getDrawable(R
                 .mipmap.divider)));
-//        AnimRFLinearLayoutManager layout = new AnimRFLinearLayoutManager(getActivity());
+        AnimRFLinearLayoutManager layout = new AnimRFLinearLayoutManager(getActivity());
 //        layout.setOrientation(LinearLayoutManager.VERTICAL);
 //        mRecyclerView.setLayoutManager(layout);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layout
@@ -164,12 +223,14 @@ public class MainFragment extends Fragment {
 //        mRecyclerView.setHeaderImage((ImageView) headerView.findViewById(R.id.iv_drop));
 //        mRecyclerView.addFootView(footerView);
 //        mRecyclerView.setColor(Color.RED, Color.BLUE);
+        mSwipeRefreshLayout.setOnRefreshListener(getRefreshListener());
         adapter = new NewsAdapter(getActivity());
         mRecyclerView.setAdapter(adapter);
-
     }
 
-    @TargetApi(23)
+    /**
+     * 后台回调 刷新数据
+     */
     @Override
     public void onResume() {
 
@@ -194,11 +255,35 @@ public class MainFragment extends Fragment {
         super.onResume();
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+////        if (mSwipeToLoadLayout.isRefreshing()) {
+////            mSwipeToLoadLayout.setRefreshing(false);
+////        }
+////        if (mSwipeToLoadLayout.isLoadingMore()) {
+////            mSwipeToLoadLayout.setLoadingMore(false);
+////        }
+//    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        mSwipeToLoadLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSwipeToLoadLayout.setRefreshing(true);
+//            }
+//        });
+    }
+
     public void initData(String uri) {
 
         new AsyncTask<String, Void, String>() {
 
-
+            /**小数据不如volley 方便
+             *
+             * */
             @Override
             protected String doInBackground(String... params) {
                 return mMainActivity.mUtil.getData(params[0]);
@@ -209,12 +294,110 @@ public class MainFragment extends Fragment {
             protected void onPostExecute(String s) {
                 NewsBean bean = mMainActivity.mJsonUtil.getNewsBean(s);
                 adapter.add(bean.getData());
-               adapter.upData();
+                adapter.upData();
                 super.onPostExecute(s);
             }
         }.execute(uri);
     }
 
+    /**
+     * 下拉刷新 需要一个请求地址参数由于数据库原因  只传了一个固定参数
+     */
+    @NonNull
+    private SwipeRefreshLayout.OnRefreshListener getRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //刷新方法
+                StringRequest request = new StringRequest(
+                        mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                /**网络请求的返回值
+                                 * 可以根据返回值的返回类型判断添加数据的方法*/
+                                NewsBean bean = mMainActivity.mJsonUtil.getNewsBean(response);
+                                adapter.add(bean.getData());
+                                adapter.upData();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+/**如果请求失败则在此处添加读取本地数据的方法*/
+                            }
+                        }
+                );
+                mQueue.add(request);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        };
+    }
+//    @NonNull
+//    private OnLoadMoreListener getLoadListener() {
+//        return new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//
+//            }
+//        };
+//    }
+
+//    @NonNull
+//    private OnRefreshListener getRefreshListener() {
+//        return new OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//            }
+//        };
+//    }
+
+    /**
+     * 上啦刷新 需要一个请求地址的参数
+     */
+    @NonNull
+    private RecyclerView.OnScrollListener getScrollListener() {
+        return new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter
+                        .getItemCount()) {
+//                    if (!ViewCompat.canScrollVertically(recyclerView, 0)) {
+////                        mSwipeToLoadLayout.setLoadingMore(true);
+//                    }
+                    adapter.changeMoreStatus(NewsAdapter.LOADING_MORE);
+                    StringRequest request = new StringRequest(
+                            mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"),
+                            new Response.Listener<String>() {
+                                /**网络请求成功时调用*/
+                                @Override
+                                public void onResponse(String response) {
+                                    NewsBean bean = mMainActivity.mJsonUtil.getNewsBean(response);
+                                    adapter.add(bean.getData());
+                                    adapter.upData();
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                /**网络请求失败时调用*/
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            });
+                    mQueue.add(request);
+                }
+
+            }
+
+            /**返回最后一项可视item的索引*/
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            }
+        };
+    }
 //    private void setLeft() {
 //        FragmentManager     fm          = getFragmentManager();
 //        FragmentTransaction transaction = fm.beginTransaction();

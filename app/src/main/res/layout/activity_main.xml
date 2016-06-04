@@ -20,6 +20,20 @@
             />
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/ll_right"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
+
+        <FrameLayout
+            android:id="@+id/fl_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/ll_main"
         android:layout_width="match_parent"
@@ -75,16 +89,4 @@
             android:layout_below="@id/rl_title"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/ll_right"
-        android:layout_width="260dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true">
-
-        <FrameLayout
-            android:id="@+id/fl_right"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </RelativeLayout>
 </RelativeLayout>

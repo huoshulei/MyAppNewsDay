@@ -78,7 +78,7 @@ public class LeftFragment extends Fragment {
                         break;
                 }
 
-                mMainActivity.initLocation();
+                mMainActivity.initLocation(0);
             }
         };
     }
