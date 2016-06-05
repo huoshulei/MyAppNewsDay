@@ -21,7 +21,7 @@ public class LeftFragment extends Fragment {
     RelativeLayout rl_local;
     RelativeLayout rl_comment;
     RelativeLayout rl_photo;
-    MainFragment   mMainFragment;
+    NewsFragment   mNewsFragment;
     MainActivity   mMainActivity;
 
     public LeftFragment() {
@@ -41,7 +41,7 @@ public class LeftFragment extends Fragment {
         rl_comment = (RelativeLayout) view.findViewById(R.id.rl_comment);
         rl_photo = (RelativeLayout) view.findViewById(R.id.rl_photo);
         mMainActivity = (MainActivity) getActivity();
-        mMainFragment = mMainActivity.mMainFragment;
+        mNewsFragment = mMainActivity.mNewsFragment;
         return view;
     }
 
