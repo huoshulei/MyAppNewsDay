@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dgreenhalgh.android.simpleitemdecoration.linear.DividerItemDecoration;
-import com.sch.rfview.manager.AnimRFLinearLayoutManager;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.bean.NewsBean;
@@ -42,14 +42,14 @@ public class MainFragment extends Fragment {
     int lastVisibleItem = 0;//最后一条显示信息的索引
     LinearLayoutManager layoutManager;
     RequestQueue        mQueue;
-//    SwipeToLoadLayout mSwipeToLoadLayout;
+    String              title;
+
+    //    SwipeToLoadLayout mSwipeToLoadLayout;
 //    TextView           headerText;
 //    TextView           headerTime;
 //    ImageView          iv_header;
 //    ProgressBar        pb_header;
 //    TextView           tv_footer;
-
-//    GestureDetector mGestureDetector;
 //    int             width;
 //    LeftFragment    fragmentLeft;
 //    RightFragment   fragmentRight;
@@ -60,6 +60,13 @@ public class MainFragment extends Fragment {
 //    float x1 = 0, x2 = 0;//点击屏幕按下与弹起点的坐标
 //    float y1 = 0, y2 = 0;
 //    float praentX = 0;//获得子布局相对于屏幕的偏移量
+    public static MainFragment newInstance(String title) {
+        Bundle       args     = new Bundle();
+        MainFragment fragment = new MainFragment();
+        args.putString("NEWS_ID", title);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public MainFragment() {
         // Required empty public constructor
@@ -75,7 +82,13 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(getActivity());
         mMainActivity = (MainActivity) getActivity();
-        newsId = mMainActivity.newsId;
+        String[] title = mMainActivity.mNewsFragment.getTitle();
+        this.title = getArguments().getString("NEWS_ID");
+        for (int i = 0; i < title.length; i++) {
+            if (title[i].equals(this.title)) {
+                newsId = i + 1;
+            }
+        }
     }
 
     @Override
@@ -162,13 +175,16 @@ public class MainFragment extends Fragment {
      * 初始化数据
      * 上拉加载事件
      * item点击事件
+     * 根据新闻id 获取参数
      */
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.stll_main);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_news_item);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_news);
+        Log.d(TAG, "onViewCreated:新闻id " + newsId);
         initData(mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"));
         initView();
 //        mSwipeToLoadLayout.setOnRefreshListener(getRefreshListener());
@@ -203,7 +219,7 @@ public class MainFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity().getDrawable(R
                 .mipmap.divider)));
-        AnimRFLinearLayoutManager layout = new AnimRFLinearLayoutManager(getActivity());
+//        AnimRFLinearLayoutManager layout = new AnimRFLinearLayoutManager(getActivity());
 //        layout.setOrientation(LinearLayoutManager.VERTICAL);
 //        mRecyclerView.setLayoutManager(layout);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layout
@@ -282,7 +298,6 @@ public class MainFragment extends Fragment {
         new AsyncTask<String, Void, String>() {
 
             /**小数据不如volley 方便
-             *
              * */
             @Override
             protected String doInBackground(String... params) {

@@ -22,9 +22,10 @@ import edu.hsl.myappnewsday.R;
  */
 public class NewsFragment extends Fragment {
     TabLayout tabs;
-    Fragment  mFragment;
+//    Fragment  mFragment;
     Adapter   mAdapter;
     ViewPager mViewPager;
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -49,8 +50,8 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewPager= (ViewPager) view.findViewById(R.id.vp_news);
-        tabs= (TabLayout) view.findViewById(R.id.tabs);
+        mViewPager = (ViewPager) view.findViewById(R.id.vp_news);
+        tabs = (TabLayout) view.findViewById(R.id.tabs);
         mViewPager.setAdapter(mAdapter);
         tabs.setupWithViewPager(mViewPager);
     }
@@ -60,8 +61,8 @@ public class NewsFragment extends Fragment {
     }
 
     public Fragment getFragment(int position) {
-//        String   title    = getTitle()[position];
-        Fragment fragment = new MainFragment();
+        String   title    = getTitle()[position];
+        Fragment fragment = MainFragment.newInstance(title);
         return fragment;
     }
 
