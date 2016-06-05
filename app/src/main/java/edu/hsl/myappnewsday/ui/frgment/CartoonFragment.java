@@ -50,6 +50,7 @@ public class CartoonFragment extends Fragment {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mLeadActivity.startActivity(MainActivity.class);
+                mLeadActivity.finish();
 //                FragmentManager     manager     = getFragmentManager();
 //                FragmentTransaction transaction = manager.beginTransaction();
 //                main = new MainFragment();

@@ -3,7 +3,6 @@ package edu.hsl.myappnewsday.ui.activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -335,15 +334,19 @@ public class MainActivity extends BaseActivity {
 //        return super.onTouchEvent(event);
 //    }
 
+    /**
+     * 最杀伤脑细胞的一个方法
+     * 依然可以继续优化条件
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x1 = event.getX();
                 y1 = event.getY();
-                Log.d(TAG, "dispatchTouchEvent: x1" + x1);
+//                Log.d(TAG, "dispatchTouchEvent: x1" + x1);
                 praentX = fl_main.getLeft();
-                Log.d(TAG, "dispatchTouchEvent: praentX" + praentX);
+//                Log.d(TAG, "dispatchTouchEvent: praentX" + praentX);
                 if (x1 < 100 && praentX == 0) {//左菜单加载
                     addLeftFragment();
                 }
@@ -353,68 +356,76 @@ public class MainActivity extends BaseActivity {
                 break;
             case MotionEvent.ACTION_MOVE:
                 x2 = event.getX();
-                if (x2 > x1 && x1 < 100 && praentX == 0) {//左菜单滑出
-                    setLeft((int) (x2 - x1));
-                }
-                if (x1 > x2 && x1 > width - 100 && praentX == 0) {//右菜单滑出
-                    setRight((int) (x1 - x2));
-                }
-                if (x2 < x1 && x1 - praentX < 100 && praentX != 0) {//左菜单返回
-                    initLocation((int) (x1 - x2));
-                }
-                if (x1 < x2 && x1 - praentX > width - 100 && praentX != 0) {//右菜单返回
-                    initLocation((int) (x2 - x1));
+//                y2 = event.getY();
+                if (x1 - praentX > 0 && x1 - praentX < width) {
+                    if (x2 > x1 && x1 < 100 && praentX == 0) {//左菜单滑出
+                        setLeft((int) (x2 - x1));
+                    }
+                    if (x1 > x2 && x1 > width - 100 && praentX == 0) {//右菜单滑出
+                        setRight((int) (x1 - x2));
+                    }
+                    if (x2 < x1 && x1 - praentX < 100 && praentX != 0) {//左菜单返回
+                        initLocation((int) (x1 - x2));
+                    }
+                    if (x1 < x2 && x1 - praentX > width - 100 && praentX != 0) {//右菜单返回
+                        initLocation((int) (x2 - x1));
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
                 y2 = event.getY();
-
-                if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
-                    if (x1 - x2 >= 300 && x1 - praentX > width - 100 ) {//右菜单滑出成功
-                        Log.d(TAG, "dispatchTouchEvent: 右菜单滑出成功");
+                if ((x1 - praentX >= 0 && x1 - praentX < 100)
+                        || (x1 - praentX > width - 100 && x1 - praentX <= width)) {
+//                if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+                    if (x1 - x2 >= 300 && x1 - praentX > width - 100) {//右菜单滑出成功
+//                        Log.d(TAG, "dispatchTouchEvent: 右菜单滑出成功");
                         setRight((int) (x1 - x2), width_right);
                         return false;
                     }
-                    if (x2 - x1 >= 300 && x1 - praentX > width - 100 ) {//右菜单返回成功
-                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回成功");
+                    if (x2 - x1 >= 300 && x1 - praentX > width - 100) {//右菜单返回成功
+//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回成功");
                         initLocation((int) (x2 - x1), true);
                         return false;
                     }
-                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX > width - 100 ) {//右菜单滑出失败
-                        Log.d(TAG, "dispatchTouchEvent: 右菜单滑出失败");
+                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX > width - 100) {//右菜单滑出失败
+//                        Log.d(TAG, "dispatchTouchEvent: 右菜单滑出失败");
                         initLocation(width_right - (int) (x1 - x2), true);
                         return false;
                     }
-                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX > width - 100 ) {//右菜单返回失败
-                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回失败");
+                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX > width - 100 && praentX !=
+                            0) {//右菜单返回失败
+//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回失败");
                         setRight(width_right - (int) (x2 - x1), width_right);
                         return false;
                     }
 
-                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX < 100)
-                    {//左菜单滑出失败
-                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出失败");
+                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX < 100) {//左菜单滑出失败
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出失败");
                         initLocation((int) (x2 - x1), true);
                         return false;
                     }
                     if (x2 - x1 >= 300 && x1 - praentX < 100) {//左菜单滑出成功
-                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出成功");
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出成功");
                         setLeft((int) (x2 - x1), width_left);
                         return false;
                     }
-                    if (x1 - x2 >= 300 && x1 - praentX < 100 ) {//左菜单返回成功
-                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
+                    if (x1 - x2 >= 300 && x1 - praentX < 100) {//左菜单返回成功
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
                         initLocation((int) (x1 - x2), true);
                         return false;
                     }
-                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX < 100 )
+                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX < 100 && praentX != 0)
                     {//左菜单返回失败
-                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
                         setLeft(width_left - (int) (x1 - x2), width_left);
                         return false;
                     }
-
+                    if (Math.abs(x1 - x2) < 300) {
+//                        Log.d(TAG, "dispatchTouchEvent: 什么时候走了这个货");
+                        initFragment();
+                        return false;
+                    }
 //                    return false;
                 }
                 break;

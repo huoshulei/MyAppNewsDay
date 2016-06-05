@@ -22,7 +22,7 @@ import edu.hsl.myappnewsday.R;
  */
 public class NewsFragment extends Fragment {
     TabLayout tabs;
-//    Fragment  mFragment;
+    //    Fragment  mFragment;
     Adapter   mAdapter;
     ViewPager mViewPager;
 
@@ -56,12 +56,19 @@ public class NewsFragment extends Fragment {
         tabs.setupWithViewPager(mViewPager);
     }
 
+    /**
+     * 新闻分类
+     */
     public String[] getTitle() {
         return new String[]{"军事", "社会", "股票", "基金", "探索", "手机", "NBA", "英超"};
     }
 
+    /**
+     * 根据新闻分类返回对应的fragment
+     * 并传递=参数
+     */
     public Fragment getFragment(int position) {
-        String   title    = getTitle()[position];
+        int      title    = position;
         Fragment fragment = MainFragment.newInstance(title);
         return fragment;
     }

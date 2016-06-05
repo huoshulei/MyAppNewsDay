@@ -13,20 +13,21 @@ import edu.hsl.myappnewsday.common.util.UrlUtil;
  * Created by Administrator on 2016/5/30.
  */
 public class BaseActivity extends AppCompatActivity {
-    protected int      screen_w;
-    protected int      screen_h;
-    public    UrlUtil  mUtil;
-    public    JsonUtil mJsonUtil;
+    //    protected int      screen_w;
+//    protected int      screen_h;
+    public UrlUtil  mUtil;
+    public JsonUtil mJsonUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        screen_w = getWindowManager().getDefaultDisplay().getWidth();
-        screen_h = getWindowManager().getDefaultDisplay().getHeight();
+//        screen_w = getWindowManager().getDefaultDisplay().getWidth();
+//        screen_h = getWindowManager().getDefaultDisplay().getHeight();
         mUtil = new UrlUtil();
         mJsonUtil = new JsonUtil();
         initView();
         initEvent();
+        initData();
     }
 
     public void initEvent() {
@@ -36,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void initView() {
-        initData();
+
     }
 
     public void startActivity(Class<?> activity) {
@@ -48,6 +49,9 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(activity, bundle, null);
     }
 
+    public void startActivity(Class<?> activity, Uri uri) {
+        startActivity(activity, null, uri);
+    }
 
     public void startActivity(Class<?> activity, Bundle bundle, Uri uri) {
         Intent intent = new Intent(this, activity);

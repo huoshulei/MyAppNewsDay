@@ -3,9 +3,11 @@ package edu.hsl.myappnewsday.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.bean.NewsBean;
@@ -25,10 +27,12 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
     public static final  int    LOADING_MORE     = 1;
     //上拉加载更多状态-默认为0
     private              int    load_more_status = 0;
-//    boolean isFooterEnable = false;
+    //    boolean isFooterEnable = false;
+    ImageLoader mLoader;
 
-    public NewsAdapter(Context context) {
+    public NewsAdapter(Context context, ImageLoader loader) {
         super(context);
+        mLoader = loader;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
     }
 
     public interface OnItemClickListener {
-        void OnItemClick(View view,int position);
+        void OnItemClick(View view, int position);
     }
 
     private OnItemClickListener mOnItemClickListener;
@@ -67,17 +71,20 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
     @Override
     public void onBindViewHolder(final BaseAdapter.ViewHolder holder, final int position) {
         if (holder instanceof NewsAdapter.ViewHolder) {
-            ((ViewHolder) holder).tv_summary.setText(data.get(position).getSummary());
-            ((ViewHolder) holder).tv_time.setText(data.get(position).getStamp());
+            ViewHolder viewHolder = (ViewHolder) holder;
+            viewHolder.tv_summary.setText(data.get(position).getSummary());
+            viewHolder.tv_time.setText(data.get(position).getStamp());
 //        Log.d(TAG, "onBindViewHolder: " + data.get(position).getTitle());
-            ((ViewHolder) holder).tv_title.setText(data.get(position).getTitle());
-            ((ViewHolder) holder).itemView.setTag(R.mipmap.a4);
+            viewHolder.tv_title.setText(data.get(position).getTitle());
+            viewHolder.iv_icon.setDefaultImageResId(R.mipmap.defaultpic);
+            viewHolder.iv_icon.setErrorImageResId(R.mipmap.sorry);
+            viewHolder.iv_icon.setImageUrl(data.get(position).getIcon(), mLoader);
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int pos=holder.getLayoutPosition();
-                        mOnItemClickListener.OnItemClick(v,pos);
+                        int pos = holder.getLayoutPosition();
+                        mOnItemClickListener.OnItemClick(v, pos);
                     }
                 });
             }
@@ -102,14 +109,14 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
     }
 
     class ViewHolder extends BaseAdapter.ViewHolder {
-        ImageView iv_icon;
-        TextView  tv_title;
-        TextView  tv_time;
-        TextView  tv_summary;
+        NetworkImageView iv_icon;
+        TextView         tv_title;
+        TextView         tv_time;
+        TextView         tv_summary;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            iv_icon = (ImageView) itemView.findViewById(R.id.iv_icon);
+            iv_icon = (NetworkImageView) itemView.findViewById(R.id.iv_icon);
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_summary = (TextView) itemView.findViewById(R.id.tv_summary);

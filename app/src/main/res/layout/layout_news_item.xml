@@ -5,10 +5,13 @@
                 android:background="#978e8e"
                 android:padding="8dp">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/iv_icon"
+        android:tag="@string/app_name"
+        android:src="@mipmap/defaultpic"
         android:layout_width="100dp"
-        android:layout_height="100dp"/>
+        android:layout_height="100dp"
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -16,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@id/iv_icon"
-        android:maxLines="2"
         android:ellipsize="end"
+        android:maxLines="2"
         android:text="我是标题"
         android:textColor="#000000"
         android:textSize="20sp"/>

@@ -18,13 +18,16 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dgreenhalgh.android.simpleitemdecoration.linear.DividerItemDecoration;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.bean.NewsBean;
+import edu.hsl.myappnewsday.common.util.BitmpCacheUtil;
 import edu.hsl.myappnewsday.ui.activity.MainActivity;
+import edu.hsl.myappnewsday.ui.activity.WebActivity;
 import edu.hsl.myappnewsday.ui.adapter.NewsAdapter;
 
 
@@ -42,7 +45,8 @@ public class MainFragment extends Fragment {
     int lastVisibleItem = 0;//最后一条显示信息的索引
     LinearLayoutManager layoutManager;
     RequestQueue        mQueue;
-    String              title;
+    int                 title_id;
+    ImageLoader         mLoader;
 
     //    SwipeToLoadLayout mSwipeToLoadLayout;
 //    TextView           headerText;
@@ -60,10 +64,10 @@ public class MainFragment extends Fragment {
 //    float x1 = 0, x2 = 0;//点击屏幕按下与弹起点的坐标
 //    float y1 = 0, y2 = 0;
 //    float praentX = 0;//获得子布局相对于屏幕的偏移量
-    public static MainFragment newInstance(String title) {
+    public static MainFragment newInstance(int title) {
         Bundle       args     = new Bundle();
         MainFragment fragment = new MainFragment();
-        args.putString("NEWS_ID", title);
+        args.putInt("NEWS_ID", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,21 +85,16 @@ public class MainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(getActivity());
+        mLoader = new ImageLoader(mQueue, new BitmpCacheUtil());
         mMainActivity = (MainActivity) getActivity();
-        String[] title = mMainActivity.mNewsFragment.getTitle();
-        this.title = getArguments().getString("NEWS_ID");
-        for (int i = 0; i < title.length; i++) {
-            if (title[i].equals(this.title)) {
-                newsId = i + 1;
-            }
-        }
+        this.title_id = getArguments().getInt("NEWS_ID");
+        newsId = title_id + 1;//对应的新闻类型ID
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
 //        mGestureDetector = new GestureDetector(getActivity(), new MyOnGestureListener());
 //        DisplayMetrics metrics = new DisplayMetrics();
@@ -168,7 +167,7 @@ public class MainFragment extends Fragment {
 //                return mGestureDetector.onTouchEvent(event);
 //            }
 //        });
-        return view;
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     /**
@@ -201,7 +200,12 @@ public class MainFragment extends Fragment {
         return new NewsAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                Toast.makeText(mMainActivity, position + ">>>>个刘承宇", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                Log.d(TAG, "OnItemClick: " + adapter.getData().get(position).getLink());
+                bundle.putString("URL", adapter.getData().get(position).getLink());
+                mMainActivity.startActivity(WebActivity.class, bundle);
+                Toast.makeText(mMainActivity, ">>>正在打开网页请稍后<<<", Toast.LENGTH_SHORT)
+                        .show();
             }
         };
     }
@@ -240,7 +244,7 @@ public class MainFragment extends Fragment {
 //        mRecyclerView.addFootView(footerView);
 //        mRecyclerView.setColor(Color.RED, Color.BLUE);
         mSwipeRefreshLayout.setOnRefreshListener(getRefreshListener());
-        adapter = new NewsAdapter(getActivity());
+        adapter = new NewsAdapter(getActivity(), mLoader);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -332,7 +336,7 @@ public class MainFragment extends Fragment {
                                 /**网络请求的返回值
                                  * 可以根据返回值的返回类型判断添加数据的方法*/
                                 NewsBean bean = mMainActivity.mJsonUtil.getNewsBean(response);
-                                adapter.add(bean.getData());
+                                adapter.addTop(bean.getData());
                                 adapter.upData();
                             }
                         },
@@ -369,7 +373,7 @@ public class MainFragment extends Fragment {
 //    }
 
     /**
-     * 上啦刷新 需要一个请求地址的参数
+     * 上啦加载 需要一个请求地址的参数
      */
     @NonNull
     private RecyclerView.OnScrollListener getScrollListener() {
