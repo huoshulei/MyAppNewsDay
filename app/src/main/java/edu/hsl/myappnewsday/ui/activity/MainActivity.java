@@ -1,5 +1,6 @@
 package edu.hsl.myappnewsday.ui.activity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -8,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.ui.base.BaseActivity;
@@ -20,11 +22,13 @@ public class MainActivity extends BaseActivity {
     RelativeLayout fl_main;
     RelativeLayout fl_left;
     RelativeLayout fl_right;
+    RelativeLayout rl_title;
     ImageView      iv_home;
     ImageView      iv_share;
     boolean isFirst        = true;
     boolean isFirstKeyBack = true;
-    public int newsId = 0;
+    public Fragment currentFragment;
+    //    public int newsId = 0;
     LeftFragment                fragmentLeft;
     RightFragment               fragmentRight;
     RelativeLayout.LayoutParams layoutParams;
@@ -42,10 +46,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         setContentView(R.layout.activity_main);
+
 //        ll_main = new MainFragment().getFl_main();
         fl_main = (RelativeLayout) findViewById(R.id.ll_main);
         fl_left = (RelativeLayout) findViewById(R.id.ll_left);
         fl_right = (RelativeLayout) findViewById(R.id.ll_right);
+        rl_title = (RelativeLayout) findViewById(R.id.rl_title);
         iv_home = (ImageView) findViewById(R.id.iv_home);
         iv_share = (ImageView) findViewById(R.id.iv_share);
         onPreDraw();
@@ -54,17 +60,22 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        FragmentManager     fm          = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = getFragmentTransaction();
 //        mMainFragment = new MainFragment();
 //        transaction.replace(R.id.fl_main, mMainFragment);
         mNewsFragment = new NewsFragment();
+        currentFragment = mNewsFragment;
         transaction.replace(R.id.fl_news, mNewsFragment);
         transaction.commit();
         super.initData();
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //        width = metrics.widthPixels;
+    }
+
+    public FragmentTransaction getFragmentTransaction() {
+        FragmentManager fm = getFragmentManager();
+        return fm.beginTransaction();
     }
 
     /**
@@ -117,8 +128,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addRightFragment() {
-        FragmentManager     fm          = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = getFragmentTransaction();
         if (fragmentRight == null)
             fragmentRight = new RightFragment();
         transaction.replace(R.id.fl_right, fragmentRight);
@@ -149,8 +159,7 @@ public class MainActivity extends BaseActivity {
      * 加载左侧菜单栏
      */
     private void addLeftFragment() {
-        FragmentManager     fm          = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = getFragmentTransaction();
         if (fragmentLeft == null) {
             fragmentLeft = new LeftFragment();
         }
@@ -258,8 +267,7 @@ public class MainActivity extends BaseActivity {
     private void initFragment() {
         layoutParams.rightMargin = 0;
         layoutParams.leftMargin = 0;
-        FragmentManager     fm          = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = getFragmentTransaction();
         if (fragmentLeft != null) {
             transaction.remove(fragmentLeft);
         }
@@ -273,6 +281,9 @@ public class MainActivity extends BaseActivity {
         width_left = 0;
     }
 
+    /**
+     * 点击事件
+     */
     @Override
     public void initEvent() {
         iv_share.setOnClickListener(new View.OnClickListener() {

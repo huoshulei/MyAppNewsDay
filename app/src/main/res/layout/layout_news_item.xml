@@ -22,7 +22,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:text="我是标题"
-        android:textColor="#000000"
+        android:textColor="#000"
         android:textSize="20sp"/>
 
     <TextView
