@@ -158,13 +158,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void delay(int delaytime) {
-        long time = System.currentTimeMillis();
-        if (System.currentTimeMillis() - time >= 5)
-            return;
-    }
-
-
     /**
      * 加载左侧菜单栏
      */
@@ -202,7 +195,7 @@ public class MainActivity extends BaseActivity {
                         publishProgress(i);
 
                         try {
-                            Thread.sleep((int)0.1f);
+                            Thread.sleep((int) 0.1f);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
