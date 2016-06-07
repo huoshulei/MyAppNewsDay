@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.flyco.animation.BounceEnter.BounceTopEnter;
+import com.flyco.animation.FadeExit.FadeExit;
 import com.flyco.dialog.widget.internal.BaseAlertDialog;
 
 import butterknife.BindView;
@@ -49,7 +51,11 @@ public class EnrollDialog extends BaseAlertDialog<EnrollDialog> {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_back:
-                dismiss();
+                MyDialog dialog = new MyDialog(mContext);
+                dialog.showAnim(new BounceTopEnter());
+                dialog.dismissAnim(new FadeExit());
+                dialog.show();
+                this.dismiss();
                 break;
             case R.id.tv_enroll:
                 dismiss();

@@ -82,7 +82,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="5dp"
-            android:text="返回"
+            android:text="直接登陆"
             android:textColor="#000"
             android:textSize="25sp"/>
 
@@ -93,7 +93,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="5dp"
-            android:text="注册"
+            android:text="确认注册"
             android:textColor="#000"
             android:textSize="25sp"/>
     </LinearLayout>

@@ -1,7 +1,6 @@
 package edu.hsl.myappnewsday.ui.frgment;
 
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -215,7 +214,8 @@ public class MainFragment extends Fragment {
      * item 间距
      * 下拉刷新事件
      */
-    @TargetApi(23)
+
+
     public void initView() {
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());

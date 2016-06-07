@@ -3,13 +3,14 @@ package edu.hsl.myappnewsday.ui.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.ui.base.BaseActivity;
@@ -27,6 +28,7 @@ public class MainActivity extends BaseActivity {
     ImageView      iv_share;
     boolean isFirst        = true;
     boolean isFirstKeyBack = true;
+    boolean isMenuShow     = false;
     public Fragment currentFragment;
     //    public int newsId = 0;
     LeftFragment                fragmentLeft;
@@ -128,6 +130,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addRightFragment() {
+        isMenuShow = true;
         FragmentTransaction transaction = getFragmentTransaction();
         if (fragmentRight == null)
             fragmentRight = new RightFragment();
@@ -155,10 +158,18 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    private void delay(int delaytime) {
+        long time = System.currentTimeMillis();
+        if (System.currentTimeMillis() - time >= 5)
+            return;
+    }
+
+
     /**
      * 加载左侧菜单栏
      */
     private void addLeftFragment() {
+        isMenuShow = true;
         FragmentTransaction transaction = getFragmentTransaction();
         if (fragmentLeft == null) {
             fragmentLeft = new LeftFragment();
@@ -171,46 +182,49 @@ public class MainActivity extends BaseActivity {
         fl_left.setLayoutParams(layoutParams_left);
     }
 
-    public void setLeft(int distance, int width_left) {
+    public void setLeft(int distance, final int width_left) {
+
 //        for (int i = distance; i < width_left; i += 5) {
         if (distance <= width_left) {
-            layoutParams_left.leftMargin = (distance - width_left) / 2;
-            layoutParams.leftMargin = distance;
-            layoutParams.rightMargin = -distance;
-            fl_left.setLayoutParams(layoutParams_left);
-            fl_main.setLayoutParams(layoutParams);
-            if (distance < width_left) {
-                distance += 1;
-                setLeft(distance, width_left);
-            }
-//            new AsyncTask<Integer, Void, Integer>() {
-//                @Override
-//                protected Integer doInBackground(Integer... params) {
-////                    try {
-////                        Thread.sleep(10);
-////                    } catch (InterruptedException e) {
-////                        e.printStackTrace();
-////                    }
-//                    int distance = params[0] + 1;
-//                    if (distance < width_left) {
-//                        return distance;
-//                    } else if (distance >= width_left) {
-//                        return distance;
-//                    }
-//                    return distance;
-//                }
+//            layoutParams_left.leftMargin = (distance - width_left) / 2;
+//            layoutParams.leftMargin = distance;
+//            layoutParams.rightMargin = -distance;
+//            fl_left.setLayoutParams(layoutParams_left);
+//            fl_main.setLayoutParams(layoutParams);
+//            if (distance < width_left) {
+//                distance++;
+//                setLeft(distance, width_left);
+//            }
+            new AsyncTask<Integer, Integer, Void>() {
+                @Override
+                protected Void doInBackground(Integer... params) {
+                    for (int i = params[0]; i <= width_left; i += 5) {
+                        publishProgress(i);
 
-//                @Override
-//                protected void onPostExecute(Integer integer) {
-//                    super.onPostExecute(integer);
-//                    setLeft(integer, width_left);
-//                }
-//            }.execute(distance);
-//        }
-//        }
-            isFirstKeyBack = true;
+                        try {
+                            Thread.sleep((int)0.1f);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onProgressUpdate(Integer... values) {
+                    layoutParams_left.leftMargin = (values[0] - width_left) / 2;
+                    layoutParams.leftMargin = values[0];
+                    layoutParams.rightMargin = -values[0];
+                    fl_left.setLayoutParams(layoutParams_left);
+                    fl_main.setLayoutParams(layoutParams);
+                    Log.d(TAG, "onProgressUpdate: " + fl_main.getLeft());
+                }
+            }.execute(distance);
+
         }
+        isFirstKeyBack = true;
     }
+
 
     /**
      * 恢复主布局状态
@@ -238,6 +252,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initLocation(int distance, boolean isLocantion) {
+        Log.d(TAG, "setLeft: 这是什么鬼" + fl_main.getLeft());
         if (width_left > 0) {
             layoutParams.rightMargin = -width_left + distance;
             layoutParams.leftMargin = width_left - distance;
@@ -277,6 +292,7 @@ public class MainActivity extends BaseActivity {
         transaction.commit();
         fl_main.setLayoutParams(layoutParams);
         isFirstKeyBack = false;
+        isMenuShow = false;
         width_right = 0;
         width_left = 0;
     }
@@ -305,7 +321,10 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (isFirstKeyBack) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                initLocation(0);
+                if (fl_main.getLeft() != 0) {
+                    initLocation(0);
+                    return true;
+                }
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -358,86 +377,104 @@ public class MainActivity extends BaseActivity {
 //                Log.d(TAG, "dispatchTouchEvent: x1" + x1);
                 praentX = fl_main.getLeft();
 //                Log.d(TAG, "dispatchTouchEvent: praentX" + praentX);
-                if (x1 < 100 && praentX == 0) {//左菜单加载
-                    addLeftFragment();
-                }
-                if (x1 > width - 100 && praentX == 0) {//右菜单加载
-                    addRightFragment();
-                }
+//                if (x1 < 100 && praentX == 0) {//左菜单加载
+//                    addLeftFragment();
+//                }
+//                if (x1 > width - 100 && praentX == 0) {//右菜单加载
+//                    addRightFragment();
+//                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 x2 = event.getX();
 //                y2 = event.getY();
-                if (x1 - praentX > 0 && x1 - praentX < width) {
+                if (x1 - praentX >= 0 && x1 - praentX <= width) {
                     if (x2 > x1 && x1 < 100 && praentX == 0) {//左菜单滑出
+                        if (!isMenuShow) addLeftFragment();
                         setLeft((int) (x2 - x1));
+                        return true;
                     }
                     if (x1 > x2 && x1 > width - 100 && praentX == 0) {//右菜单滑出
+                        if (!isMenuShow) addRightFragment();
                         setRight((int) (x1 - x2));
+                        return true;
                     }
-                    if (x2 < x1 && x1 - praentX < 100 && praentX != 0) {//左菜单返回
+                    if (x2 < x1 && x1 - praentX < width / 2 && praentX != 0) {//左菜单返回
                         initLocation((int) (x1 - x2));
+                        return true;
                     }
-                    if (x1 < x2 && x1 - praentX > width - 100 && praentX != 0) {//右菜单返回
+                    if (x1 < x2 && x1 - praentX > width / 2 && praentX != 0) {//右菜单返回
                         initLocation((int) (x2 - x1));
+                        return true;
+                    }
+                    if (praentX != 0) {//右菜单返回
+                        return true;
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
                 y2 = event.getY();
-                if ((x1 - praentX >= 0 && x1 - praentX < 100)
-                        || (x1 - praentX > width - 100 && x1 - praentX <= width)) {
+                if (((x1 - praentX >= 0 && x1 - praentX < 100)
+                        || (x1 - praentX > width - 100 && x1 - praentX <= width))) {
 //                if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
                     if (x1 - x2 >= 300 && x1 - praentX > width - 100) {//右菜单滑出成功
 //                        Log.d(TAG, "dispatchTouchEvent: 右菜单滑出成功");
                         setRight((int) (x1 - x2), width_right);
                         return false;
                     }
-                    if (x2 - x1 >= 300 && x1 - praentX > width - 100) {//右菜单返回成功
-//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回成功");
-                        initLocation((int) (x2 - x1), true);
-                        return false;
-                    }
-                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX > width - 100) {//右菜单滑出失败
+                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 > width - 100 && praentX == 0) {//右菜单滑出失败
 //                        Log.d(TAG, "dispatchTouchEvent: 右菜单滑出失败");
                         initLocation(width_right - (int) (x1 - x2), true);
                         return false;
                     }
-                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX > width - 100 && praentX !=
-                            0) {//右菜单返回失败
-//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回失败");
-                        setRight(width_right - (int) (x2 - x1), width_right);
-                        return false;
-                    }
-
-                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX < 100) {//左菜单滑出失败
+//                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 - praentX > width - 100 && praentX !=
+//                            0) {//右菜单返回失败
+////                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回失败");
+//                        setRight(width_right - (int) (x2 - x1), width_right);
+//                        return false;
+//                    }
+                    if (x2 - x1 > 0 && x2 - x1 < 300 && x1 < 100 && praentX == 0) {//左菜单滑出失败
 //                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出失败");
                         initLocation((int) (x2 - x1), true);
                         return false;
                     }
                     if (x2 - x1 >= 300 && x1 - praentX < 100) {//左菜单滑出成功
-//                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出成功");
+                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出成功");
                         setLeft((int) (x2 - x1), width_left);
                         return false;
                     }
-                    if (x1 - x2 >= 300 && x1 - praentX < 100) {//左菜单返回成功
-//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
-                        initLocation((int) (x1 - x2), true);
-                        return false;
-                    }
-                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX < 100 && praentX != 0)
-                    {//左菜单返回失败
-//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
-                        setLeft(width_left - (int) (x1 - x2), width_left);
-                        return false;
-                    }
-                    if (Math.abs(x1 - x2) < 300) {
-//                        Log.d(TAG, "dispatchTouchEvent: 什么时候走了这个货");
-                        initFragment();
-                        return false;
-                    }
+
+//                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX < 100 && praentX != 0)
+//                    {//左菜单返回失败
+////                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
+//                        setLeft(width_left - (int) (x1 - x2), width_left);
+//                        return false;
+//                    }
+//                    if (Math.abs(x1 - x2) < 300 && x1 != x2) {
+////                        Log.d(TAG, "dispatchTouchEvent: 什么时候走了这个货");
+//                        initFragment();
+//                        return true;
+//                    }
 //                    return false;
+                }
+//                else if (praentX != 0 && x1 - praentX >= 0 && x1 - praentX <= width) {
+//                    initLocation(0);
+//                    Log.d(TAG, "dispatchTouchEvent: 我就看看什么时候走的");
+//                    return true;
+//                }
+                if (x1 - x2 >= 30 && x1 - praentX < width / 2) {//左菜单返回成功
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
+                    initLocation((int) (x1 - x2), true);
+                    return false;
+                }
+                if (x2 - x1 >= 30 && x1 - praentX > width / 2) {//右菜单返回成功
+//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回成功");
+                    initLocation((int) (x2 - x1), true);
+                    return false;
+                }
+                if (x1 - praentX >= 0 && x1 - praentX <= width && praentX != 0) {
+                    if (x1 == x2) initLocation(0);
+                    return false;
                 }
                 break;
         }

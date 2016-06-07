@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#a30000">
+
+    <is.arontibo.library.ElasticDownloadView
+        android:id="@+id/edv_load"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_ver_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/edv_load"
+        android:layout_marginTop="15dp"
+        android:text="当前版本:"
+        android:textSize="18sp"/>
+
+    <TextView
+
+        android:id="@+id/tv_ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_ver_text"
+        android:layout_toEndOf="@id/tv_ver_text"
+        android:text="1.1.1"/>
+
+    <TextView
+        android:id="@+id/tv_ver_text_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_ver_text"
+        android:layout_below="@id/tv_ver_text"
+        android:layout_marginTop="5dp"
+        android:text="最新版本:"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_ver_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_ver_text_new"
+        android:layout_toEndOf="@id/tv_ver_text_new"
+        android:text="1.1.2"/>
+
+    <TextView
+        android:id="@+id/tv_tttt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="小伙子! 请检查你的网络"
+        android:textSize="35sp"
+        android:visibility="invisible"/>
+</RelativeLayout>

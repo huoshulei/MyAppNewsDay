@@ -10,21 +10,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flyco.animation.FallEnter.FallRotateEnter;
+import com.flyco.animation.Jelly;
 import com.flyco.animation.ZoomEnter.ZoomInTopEnter;
 import com.flyco.animation.ZoomExit.ZoomOutBottomExit;
 
 import edu.hsl.myappnewsday.R;
+import edu.hsl.myappnewsday.ui.activity.MainActivity;
 import edu.hsl.myappnewsday.ui.dialog.MyDialog;
+import edu.hsl.myappnewsday.ui.dialog.UpDateDialog;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RightFragment extends Fragment {
     private static final String TAG = "RightFragment";
-    ImageView user_icon;
-    TextView  tv_land;
-    TextView  tv_update;
-    TextView  tv_share;
+    ImageView    user_icon;
+    TextView     tv_land;
+    TextView     tv_update;
+    TextView     tv_share;
+    MainActivity mMainActivity;
 
     public RightFragment() {
         // Required empty public constructor
@@ -35,6 +40,7 @@ public class RightFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mMainActivity = (MainActivity) getActivity();
         return inflater.inflate(R.layout.fragment_right, container, false);
     }
 
@@ -70,10 +76,15 @@ public class RightFragment extends Fragment {
                         dialog.show();
                         break;
                     case R.id.tv_up_data:
+                        UpDateDialog upDateDialog = new UpDateDialog(getActivity());
+                        upDateDialog.showAnim(new FallRotateEnter());
+                        upDateDialog.dismissAnim(new Jelly());
+                        upDateDialog.show();
                         break;
                     case R.id.tv_share:
                         break;
                 }
+                mMainActivity.initLocation(0);
             }
         };
     }
