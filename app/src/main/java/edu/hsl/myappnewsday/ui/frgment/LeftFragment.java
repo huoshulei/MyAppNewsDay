@@ -72,62 +72,51 @@ public class LeftFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_news:
-                        if (mMainActivity.mNewsFragment != mMainActivity.currentFragment) {
-//                            if (mMainActivity.mNewsFragment == null) {
-//                                mMainActivity.mNewsFragment = new NewsFragment();
-//                            }
-//                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
-//                            mTransaction.replace(R.id.fl_news, mMainActivity.mNewsFragment);
+                        gotoFragment(mMainActivity.mNewsFragment, 0);
+//                        if (mMainActivity.mNewsFragment != mMainActivity.currentFragment) {
+////                            if (mMainActivity.mNewsFragment == null) {
+////                                mMainActivity.mNewsFragment = new NewsFragment();
+////                            }
+////                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
+////                            mTransaction.replace(R.id.fl_news, mMainActivity.mNewsFragment);
+////                            mTransaction.commit();
+////                            Log.d(TAG, "onClick: 什么时候走的");
+//                            Fragment fragment = mMainActivity.mNewsFragment;
+//                            if (fragment == null)
+//                                fragment = new NewsFragment();
+//                            mTransaction.replace(R.id.fl_news, fragment);
 //                            mTransaction.commit();
-//                            Log.d(TAG, "onClick: 什么时候走的");
-                            Fragment fragment = mMainActivity.mNewsFragment;
-                            if (fragment == null)
-                                fragment = new NewsFragment();
-                            mTransaction.replace(R.id.fl_news, fragment);
-                            mTransaction.commit();
-                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
-                        }
+//                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
+//                        }
                         break;
                     case R.id.rl_favorite:
-                        if (mFavoriteFragment != mMainActivity.currentFragment) {
-                            if (mFavoriteFragment == null)
-                                mFavoriteFragment = new FavoriteFragment();
-                            mTransaction.replace(R.id.fl_news, mFavoriteFragment);
-                            mTransaction.commit();
-                            mMainActivity.currentFragment = mFavoriteFragment;
-                        }
+                        gotoFragment(mFavoriteFragment, 1);
                         break;
                     case R.id.rl_comment:
-                        if (mCommentFragment != mMainActivity.currentFragment) {
-                            if (mCommentFragment == null)
-                                mCommentFragment = new CommentFragment();
-                            mTransaction.replace(R.id.fl_news, mCommentFragment);
-                            mTransaction.commit();
-                            mMainActivity.currentFragment = mCommentFragment;
-                        }
+                        gotoFragment(mCommentFragment, 2);
                         break;
                     case R.id.rl_local:
-                        if (mLocalFragment != mMainActivity.currentFragment) {
-                            if (mLocalFragment == null)
-                                mLocalFragment = new LocalFragment();
-                            mTransaction.replace(R.id.fl_news, mLocalFragment);
-                            mTransaction.commit();
-                            mMainActivity.currentFragment = mLocalFragment;
-                        }
+                        gotoFragment(mLocalFragment, 3);
                         break;
                     case R.id.rl_photo:
-                        if (mPhotoFragment != mMainActivity.currentFragment) {
-                            if (mPhotoFragment == null)
-                                mPhotoFragment = new PhotoFragment();
-                            mTransaction.replace(R.id.fl_news, mPhotoFragment);
-                            mTransaction.commit();
-                            mMainActivity.currentFragment = mPhotoFragment;
-                        }
+                        gotoFragment(mPhotoFragment, 4);
                         break;
                 }
 
                 mMainActivity.initLocation(0);
             }
         };
+    }
+
+    private void gotoFragment(Fragment fragment, int tabIdx) {
+        if (fragment != mMainActivity.currentFragment) {
+            fragment = getFragmentManager().findFragmentById(tabIdx);
+            if (fragment == null)
+                fragment = new CommentFragment();
+            mTransaction.replace(R.id.fl_news, fragment);
+            mTransaction.addToBackStack(null);
+            mTransaction.commit();
+            mMainActivity.currentFragment = fragment;
+        }
     }
 }

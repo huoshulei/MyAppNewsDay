@@ -3,7 +3,6 @@ package edu.hsl.myappnewsday.ui.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,8 +47,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         setContentView(R.layout.activity_main);
-
-//        ll_main = new MainFragment().getFl_main();
         fl_main = (RelativeLayout) findViewById(R.id.ll_main);
         fl_left = (RelativeLayout) findViewById(R.id.ll_left);
         fl_right = (RelativeLayout) findViewById(R.id.ll_right);
@@ -63,11 +60,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         FragmentTransaction transaction = getFragmentTransaction();
-//        mMainFragment = new MainFragment();
-//        transaction.replace(R.id.fl_main, mMainFragment);
         mNewsFragment = new NewsFragment();
         currentFragment = mNewsFragment;
         transaction.replace(R.id.fl_news, mNewsFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
         super.initData();
 //        DisplayMetrics metrics = new DisplayMetrics();
@@ -175,45 +171,44 @@ public class MainActivity extends BaseActivity {
         fl_left.setLayoutParams(layoutParams_left);
     }
 
-    public void setLeft(int distance, final int width_left) {
+    public void setLeft(int distance, int width_left) {
 
 //        for (int i = distance; i < width_left; i += 5) {
         if (distance <= width_left) {
-//            layoutParams_left.leftMargin = (distance - width_left) / 2;
-//            layoutParams.leftMargin = distance;
-//            layoutParams.rightMargin = -distance;
-//            fl_left.setLayoutParams(layoutParams_left);
-//            fl_main.setLayoutParams(layoutParams);
-//            if (distance < width_left) {
-//                distance++;
-//                setLeft(distance, width_left);
-//            }
-            new AsyncTask<Integer, Integer, Void>() {
-                @Override
-                protected Void doInBackground(Integer... params) {
-                    for (int i = params[0]; i <= width_left; i += 5) {
-                        publishProgress(i);
-
-                        try {
-                            Thread.sleep((int) 0.1f);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onProgressUpdate(Integer... values) {
-                    layoutParams_left.leftMargin = (values[0] - width_left) / 2;
-                    layoutParams.leftMargin = values[0];
-                    layoutParams.rightMargin = -values[0];
-                    fl_left.setLayoutParams(layoutParams_left);
-                    fl_main.setLayoutParams(layoutParams);
-                    Log.d(TAG, "onProgressUpdate: " + fl_main.getLeft());
-                }
-            }.execute(distance);
-
+            layoutParams_left.leftMargin = (distance - width_left) / 2;
+            layoutParams.leftMargin = distance;
+            layoutParams.rightMargin = -distance;
+            fl_left.setLayoutParams(layoutParams_left);
+            fl_main.setLayoutParams(layoutParams);
+            if (distance < width_left) {
+                distance++;
+                setLeft(distance, width_left);
+            }
+//            new AsyncTask<Integer, Integer, Void>() {
+//                @Override
+//                protected Void doInBackground(Integer... params) {
+//                    for (int i = params[0]; i <= width_left; i += 5) {
+//                        publishProgress(i);
+//
+//                        try {
+//                            Thread.sleep((int) 0.1f);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    return null;
+//                }
+//
+//                @Override
+//                protected void onProgressUpdate(Integer... values) {
+//                    layoutParams_left.leftMargin = (values[0] - width_left) / 2;
+//                    layoutParams.leftMargin = values[0];
+//                    layoutParams.rightMargin = -values[0];
+//                    fl_left.setLayoutParams(layoutParams_left);
+//                    fl_main.setLayoutParams(layoutParams);
+//                    Log.d(TAG, "onProgressUpdate: " + fl_main.getLeft());
+//                }
+//            }.execute(distance);
         }
         isFirstKeyBack = true;
     }
@@ -312,13 +307,24 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (isFirstKeyBack) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                if (fl_main.getLeft() != 0) {
-                    initLocation(0);
-                    return true;
-                }
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            if (fl_main.getLeft() != 0) {
+                initLocation(0);
+                return true;
             }
+//            if (currentFragment != mNewsFragment) {
+//                ll_news.setVisibility(View.INVISIBLE);
+//                ll_menu.setVisibility(View.GONE);
+//                return true;
+////                for (Fragment fragment : mFragments) {
+////                    if (fragment instanceof NewsFragment) {
+////                        fragment.setMenuVisibility(true);
+////                        fragment.setUserVisibleHint(true);
+////                    }
+////                    fragment.setUserVisibleHint(false);
+////                    fragment.setMenuVisibility(false);
+////                }
+//            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -455,17 +461,18 @@ public class MainActivity extends BaseActivity {
 //                    Log.d(TAG, "dispatchTouchEvent: 我就看看什么时候走的");
 //                    return true;
 //                }
-                if (x1 - x2 >= 30 && x1 - praentX < width / 2) {//左菜单返回成功
-//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
-                    initLocation((int) (x1 - x2), true);
-                    return false;
-                }
-                if (x2 - x1 >= 30 && x1 - praentX > width / 2) {//右菜单返回成功
-//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回成功");
-                    initLocation((int) (x2 - x1), true);
-                    return false;
-                }
+
                 if (x1 - praentX >= 0 && x1 - praentX <= width && praentX != 0) {
+                    if (x1 - x2 >= 30 && x1 - praentX < width / 2) {//左菜单返回成功
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
+                        initLocation((int) (x1 - x2), true);
+                        return false;
+                    }
+                    if (x2 - x1 >= 30 && x1 - praentX > width / 2) {//右菜单返回成功
+//                        Log.d(TAG, "dispatchTouchEvent: 右菜单返回成功");
+                        initLocation((int) (x2 - x1), true);
+                        return false;
+                    }
                     if (x1 == x2) initLocation(0);
                     return false;
                 }
@@ -475,5 +482,7 @@ public class MainActivity extends BaseActivity {
         return super.dispatchTouchEvent(event);
     }
 
-
+//    public void addFragment(Fragment fragment) {
+//        mFragments.add(fragment);
+//    }
 }
