@@ -72,34 +72,42 @@ public class LeftFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_news:
-                        gotoFragment(mMainActivity.mNewsFragment, 0);
-//                        if (mMainActivity.mNewsFragment != mMainActivity.currentFragment) {
-////                            if (mMainActivity.mNewsFragment == null) {
-////                                mMainActivity.mNewsFragment = new NewsFragment();
-////                            }
-////                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
-////                            mTransaction.replace(R.id.fl_news, mMainActivity.mNewsFragment);
-////                            mTransaction.commit();
-////                            Log.d(TAG, "onClick: 什么时候走的");
-//                            Fragment fragment = mMainActivity.mNewsFragment;
-//                            if (fragment == null)
-//                                fragment = new NewsFragment();
-//                            mTransaction.replace(R.id.fl_news, fragment);
-//                            mTransaction.commit();
+
+                        if (mMainActivity.mNewsFragment != mMainActivity.currentFragment) {
+//                            if (mMainActivity.mNewsFragment == null) {
+//                                mMainActivity.mNewsFragment = new NewsFragment();
+//                            }
 //                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
-//                        }
+//                            mTransaction.replace(R.id.fl_news, mMainActivity.mNewsFragment);
+//                            mTransaction.commit();
+//                            Log.d(TAG, "onClick: 什么时候走的");
+                            Fragment fragment = mMainActivity.mNewsFragment;
+                            if (fragment == null)
+                                fragment = new NewsFragment();
+                            mTransaction.replace(R.id.fl_news, fragment);
+                            mTransaction.commit();
+                            mMainActivity.currentFragment = mMainActivity.mNewsFragment;
+                        }
                         break;
                     case R.id.rl_favorite:
-                        gotoFragment(mFavoriteFragment, 1);
+                        Fragment fragment = mFavoriteFragment;
+                        if (fragment != mMainActivity.currentFragment) {
+                            if (fragment == null)
+                                fragment = new FavoriteFragment();
+                            mTransaction.replace(R.id.fl_news, fragment);
+                            mTransaction.addToBackStack(null);
+                            mTransaction.commit();
+                            mMainActivity.currentFragment = fragment;
+                        }
                         break;
                     case R.id.rl_comment:
-                        gotoFragment(mCommentFragment, 2);
+                        gotoFragment(mCommentFragment);
                         break;
                     case R.id.rl_local:
-                        gotoFragment(mLocalFragment, 3);
+                        gotoFragment(mLocalFragment);
                         break;
                     case R.id.rl_photo:
-                        gotoFragment(mPhotoFragment, 4);
+                        gotoFragment(mPhotoFragment);
                         break;
                 }
 
@@ -108,9 +116,8 @@ public class LeftFragment extends Fragment {
         };
     }
 
-    private void gotoFragment(Fragment fragment, int tabIdx) {
+    private void gotoFragment(Fragment fragment) {
         if (fragment != mMainActivity.currentFragment) {
-            fragment = getFragmentManager().findFragmentById(tabIdx);
             if (fragment == null)
                 fragment = new CommentFragment();
             mTransaction.replace(R.id.fl_news, fragment);
