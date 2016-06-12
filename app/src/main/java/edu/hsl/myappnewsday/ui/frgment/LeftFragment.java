@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import java.util.Arrays;
+
+import edu.hsl.myappnewsday.Arr;
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.ui.activity.MainActivity;
 
@@ -107,7 +111,11 @@ public class LeftFragment extends Fragment {
                         gotoFragment(mLocalFragment);
                         break;
                     case R.id.rl_photo:
-                        gotoFragment(mPhotoFragment);
+//                        Log.d(TAG, "我就是看看结果 " + Arrays.toString(Arr.arr(new int[]{1, 2, 3, 4, 5,
+//                                6, 7, 8, 9, 10})));
+                        Toast.makeText(getActivity(), Arrays.toString(Arr.arr(new int[]{1, 2, 3,
+                                4, 5, 6, 7, 8, 9, 10})), Toast.LENGTH_SHORT).show();
+//                        gotoFragment(mPhotoFragment);
                         break;
                 }
 

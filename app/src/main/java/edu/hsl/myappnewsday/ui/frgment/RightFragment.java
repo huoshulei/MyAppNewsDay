@@ -2,6 +2,7 @@ package edu.hsl.myappnewsday.ui.frgment;
 
 
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.flyco.animation.ZoomEnter.ZoomInTopEnter;
 import com.flyco.animation.ZoomExit.ZoomOutBottomExit;
 
 import edu.hsl.myappnewsday.R;
+import edu.hsl.myappnewsday.share.ShareUtil;
 import edu.hsl.myappnewsday.ui.activity.MainActivity;
 import edu.hsl.myappnewsday.ui.dialog.MyDialog;
 import edu.hsl.myappnewsday.ui.dialog.UpDateDialog;
@@ -79,9 +81,18 @@ public class RightFragment extends Fragment {
                         UpDateDialog upDateDialog = new UpDateDialog(getActivity());
                         upDateDialog.showAnim(new FallRotateEnter());
                         upDateDialog.dismissAnim(new Jelly());
+                        upDateDialog.setCanceledOnTouchOutside(false);
                         upDateDialog.show();
                         break;
                     case R.id.tv_share:
+                        ShareUtil.shareTextWithImage(getActivity(), "10000000000000000",
+                                "200000000000", "300000000",
+                                Uri.parse("http://gtms03.alicdn" +
+                                        ".com/tps/i3/TB12yglGVXXXXcmXXXXwR5I_VXX-240-160.jpg"));
+//                        ShareDialog shareDialog = new ShareDialog(getActivity());
+//                        shareDialog.showAnim(new BounceTopEnter());
+//                        shareDialog.dismissAnim(new SlideBottomExit());
+//                        shareDialog.show();
                         break;
                 }
                 mMainActivity.initLocation(0);

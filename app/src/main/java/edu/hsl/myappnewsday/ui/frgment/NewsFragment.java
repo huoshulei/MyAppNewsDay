@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import edu.hsl.myappnewsday.R;
  * A simple {@link Fragment} subclass.
  */
 public class NewsFragment extends Fragment {
+    private static final String TAG = "NewsFragment";
     TabLayout tabs;
     //    Fragment  mFragment;
     Adapter   mAdapter;
@@ -35,6 +37,7 @@ public class NewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mAdapter = new Adapter(getChildFragmentManager());
         String[] title = getTitle();
+        Log.d(TAG, "onCreate: 这个是什么鬼走了多少次");
         for (int i = 0; i < title.length; i++) {
             mAdapter.addFragment(getFragment(i), title[i]);
         }
@@ -43,6 +46,7 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: 这个是什么鬼走了多少次");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news, container, false);
     }
@@ -55,6 +59,7 @@ public class NewsFragment extends Fragment {
         mViewPager.setAdapter(mAdapter);
         tabs.setupWithViewPager(mViewPager);
     }
+
 
     /**
      * 新闻分类

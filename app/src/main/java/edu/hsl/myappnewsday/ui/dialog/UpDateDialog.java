@@ -35,6 +35,8 @@ public class UpDateDialog extends BaseAlertDialog<UpDateDialog> {
     boolean isfristload = true;
     @BindView(R.id.tv_tttt)
     TextView mTvTttt;
+    @BindView(R.id.tv_install)
+    TextView mTvInstall;
 
     /**
      * method execute order:
@@ -48,11 +50,18 @@ public class UpDateDialog extends BaseAlertDialog<UpDateDialog> {
         mQueue = Volley.newRequestQueue(mContext);
     }
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        this.setCancelable(false);
+//    }
+
     @Override
     public View onCreateView() {
         View view = getLayoutInflater().inflate(R.layout.layout_update_view, null);
         ButterKnife.bind(this, view);
         mTvVer.setText(getVersionName());
+        mTvInstall.setVisibility(View.GONE);
         mTvVerNew.setText("匹配中...");
         getVerNumber();//读取最新版本号
         return view;
@@ -88,43 +97,52 @@ public class UpDateDialog extends BaseAlertDialog<UpDateDialog> {
         mQueue.add(request);
     }
 
-    @OnClick(R.id.edv_load)
-    public void onClick() {
-        if (isfristload) {
-            mEdvLoad.startIntro();
-            new AsyncTask<String, Integer, String>() {
-                @Override
-                protected String doInBackground(String... params) {
-                    for (int i = 0; i < 100; i++) {
-                        if (i < 20 || i > 80) {
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+    @OnClick({R.id.edv_load, R.id.tv_install})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.edv_load:
+                if (isfristload) {
+                    isfristload = false;
+                    mEdvLoad.startIntro();
+                    new AsyncTask<String, Integer, String>() {
+                        @Override
+                        protected String doInBackground(String... params) {
+                            for (int i = 0; i < 100; i++) {
+                                if (i < 20 || i > 80) {
+                                    try {
+                                        Thread.sleep(100);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        Thread.sleep(3);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                publishProgress(i);
                             }
-                        } else {
-                            try {
-                                Thread.sleep(3);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            return null;
                         }
-                        publishProgress(i);
-                    }
-                    return null;
-                }
 
-                @Override
-                protected void onProgressUpdate(Integer... values) {
-                    mEdvLoad.setProgress(values[0]);
-                }
+                        @Override
+                        protected void onProgressUpdate(Integer... values) {
+                            mEdvLoad.setProgress(values[0]);
+                        }
 
-                @Override
-                protected void onPostExecute(String s) {
-                    mEdvLoad.success();
+                        @Override
+                        protected void onPostExecute(String s) {
+                            mEdvLoad.success();
+                            mTvInstall.setVisibility(View.VISIBLE);
+                        }
+                    }.execute("");
                 }
-            }.execute("");
-            isfristload = false;
+                break;
+            case R.id.tv_install:
+                dismiss();
+                break;
         }
     }
+
 }

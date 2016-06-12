@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,18 +62,30 @@ public class MainActivity extends BaseActivity {
         mNewsFragment = new NewsFragment();
         currentFragment = mNewsFragment;
         transaction.replace(R.id.fl_news, mNewsFragment);
-        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null);
         transaction.commit();
         super.initData();
 //        DisplayMetrics metrics = new DisplayMetrics();
 //        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //        width = metrics.widthPixels;
     }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//    }
 
     public FragmentTransaction getFragmentTransaction() {
         FragmentManager fm = getFragmentManager();
         return fm.beginTransaction();
     }
+
+//    public FragmentTransaction getFragmentTransaction(int i) {
+//        if (mTransaction == null) {
+//            FragmentManager fm = getFragmentManager();
+//            mTransaction = fm.beginTransaction();
+//        }
+//        return mTransaction;
+//    }
 
     /**
      * 判断是否首次加载当前activity 如果是获取当前屏幕宽度 并锁定主布局宽度
@@ -240,7 +251,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initLocation(int distance, boolean isLocantion) {
-        Log.d(TAG, "setLeft: 这是什么鬼" + fl_main.getLeft());
         if (width_left > 0) {
             layoutParams.rightMargin = -width_left + distance;
             layoutParams.leftMargin = width_left - distance;
@@ -438,11 +448,10 @@ public class MainActivity extends BaseActivity {
                         return false;
                     }
                     if (x2 - x1 >= 300 && x1 - praentX < 100) {//左菜单滑出成功
-                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出成功");
+//                        Log.d(TAG, "dispatchTouchEvent: 左菜单滑出成功");
                         setLeft((int) (x2 - x1), width_left);
                         return false;
                     }
-
 //                    if (x1 - x2 > 0 && x1 - x2 < 300 && x1 - praentX < 100 && praentX != 0)
 //                    {//左菜单返回失败
 ////                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");
@@ -461,7 +470,6 @@ public class MainActivity extends BaseActivity {
 //                    Log.d(TAG, "dispatchTouchEvent: 我就看看什么时候走的");
 //                    return true;
 //                }
-
                 if (x1 - praentX >= 0 && x1 - praentX <= width && praentX != 0) {
                     if (x1 - x2 >= 30 && x1 - praentX < width / 2) {//左菜单返回成功
 //                        Log.d(TAG, "dispatchTouchEvent: 左菜单返回成功");

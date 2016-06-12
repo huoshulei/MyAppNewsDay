@@ -88,11 +88,13 @@ public class MainFragment extends Fragment {
         mMainActivity = (MainActivity) getActivity();
         this.title_id = getArguments().getInt("NEWS_ID");
         newsId = title_id + 1;//对应的新闻类型ID
+        Log.d(TAG, "onCreate: 这个是什么鬼" + newsId);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: 这个是什么鬼" + newsId);
         // Inflate the layout for this fragment
 
 //        mGestureDetector = new GestureDetector(getActivity(), new MyOnGestureListener());
@@ -182,7 +184,7 @@ public class MainFragment extends Fragment {
 //        mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.stll_main);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_news_item);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_news);
-        Log.d(TAG, "onViewCreated:新闻id " + newsId);
+//        Log.d(TAG, "onViewCreated:新闻id " + newsId);
         initData(mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"));
         initView();
 //        mSwipeToLoadLayout.setOnRefreshListener(getRefreshListener());
@@ -208,6 +210,7 @@ public class MainFragment extends Fragment {
             }
         };
     }
+
 
     /**
      * 设置布局方向

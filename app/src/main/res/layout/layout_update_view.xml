@@ -56,4 +56,16 @@
         android:text="小伙子! 请检查你的网络"
         android:textSize="35sp"
         android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_install"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/edv_load"
+        android:layout_alignRight="@id/edv_load"
+        android:paddingBottom="25dp"
+        android:paddingRight="15dp"
+        android:text="安装"
+        android:textSize="30sp"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -21,6 +21,8 @@ public class WebActivity extends BaseActivity {
         WebSettings settings = mWebView.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
         super.initView();
     }
 
