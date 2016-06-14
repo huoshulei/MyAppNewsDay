@@ -2,7 +2,6 @@ package edu.hsl.myappnewsday.ui.frgment;
 
 
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -87,8 +86,9 @@ public class RightFragment extends Fragment {
                     case R.id.tv_share:
                         ShareUtil.shareTextWithImage(getActivity(), "10000000000000000",
                                 "200000000000", "300000000",
-                                Uri.parse("http://gtms03.alicdn" +
-                                        ".com/tps/i3/TB12yglGVXXXXcmXXXXwR5I_VXX-240-160.jpg"));
+                                "http://www.eoeandroid" +
+                                        ".com/uc_server/data/avatar/000/57/57/76_avatar_middle.jpg",
+                                "http://www.baidu.com");
 //                        ShareDialog shareDialog = new ShareDialog(getActivity());
 //                        shareDialog.showAnim(new BounceTopEnter());
 //                        shareDialog.dismissAnim(new SlideBottomExit());
