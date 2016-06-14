@@ -16,7 +16,6 @@ import com.flyco.animation.ZoomEnter.ZoomInTopEnter;
 import com.flyco.animation.ZoomExit.ZoomOutBottomExit;
 
 import edu.hsl.myappnewsday.R;
-import edu.hsl.myappnewsday.share.ShareUtil;
 import edu.hsl.myappnewsday.ui.activity.MainActivity;
 import edu.hsl.myappnewsday.ui.dialog.MyDialog;
 import edu.hsl.myappnewsday.ui.dialog.UpDateDialog;
@@ -84,11 +83,14 @@ public class RightFragment extends Fragment {
                         upDateDialog.show();
                         break;
                     case R.id.tv_share:
-                        ShareUtil.shareTextWithImage(getActivity(), "10000000000000000",
-                                "200000000000", "300000000",
-                                "http://www.eoeandroid" +
-                                        ".com/uc_server/data/avatar/000/57/57/76_avatar_middle.jpg",
-                                "http://www.baidu.com");
+                        mMainActivity.share("分享", "这货就是一个显示的内容", "https://github.com/huoshulei",
+                                "评论的内容", "应用名字");
+//                        ShareUtil.shareTextWithImage(getActivity(), "10000000000000000",
+//                                "200000000000", "300000000",
+//                                "http://www.eoeandroid" +
+//                                        ".com/uc_server/data/avatar/000/57/57/76_avatar_middle
+// .jpg",
+//                                "http://www.baidu.com");
 //                        ShareDialog shareDialog = new ShareDialog(getActivity());
 //                        shareDialog.showAnim(new BounceTopEnter());
 //                        shareDialog.dismissAnim(new SlideBottomExit());
@@ -99,5 +101,6 @@ public class RightFragment extends Fragment {
             }
         };
     }
+
 
 }

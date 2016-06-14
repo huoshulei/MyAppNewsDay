@@ -1,11 +1,14 @@
 package edu.hsl.myappnewsday.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class NewsBean {
+public class NewsBean implements Parcelable {
     String     message;
     int        status;
     List<Data> data;
@@ -34,7 +37,32 @@ public class NewsBean {
         this.data = data;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(data);
+    }
+
+    public static final Creator<NewsBean> CREATOR = new Creator<NewsBean>() {
+        @Override
+        public NewsBean createFromParcel(Parcel source) {
+            NewsBean bean = new NewsBean();
+//            bean.setData(source.l);
+            return bean;
+        }
+
+        @Override
+        public NewsBean[] newArray(int size) {
+            return new NewsBean[0];
+        }
+    };
+
     public class Data {
+
         String summary;
         String icon;
         String stamp;
@@ -89,5 +117,7 @@ public class NewsBean {
         public void setLink(String link) {
             this.link = link;
         }
+
+
     }
 }

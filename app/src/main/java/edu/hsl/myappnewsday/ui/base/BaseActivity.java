@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import edu.hsl.myappnewsday.common.util.JsonUtil;
 import edu.hsl.myappnewsday.common.util.UrlUtil;
 
@@ -78,6 +80,26 @@ public class BaseActivity extends AppCompatActivity {
             intent.setData(uri);
         startActivity(intent);
 
+    }
+
+    public void share(String title, String text, String url, String comment, String apkName) {
+        ShareSDK.initSDK(this);
+        OnekeyShare share = new OnekeyShare();
+        share.disableSSOWhenAuthorize();
+        if (title != null)
+            share.setTitle(title);
+        if (text != null)
+            share.setText(text);
+        if (url != null) {
+            share.setUrl(url);
+            share.setTitleUrl(url);
+            share.setSiteUrl(url);
+        }
+        if (comment != null)
+            share.setComment(comment);
+        if (apkName != null)
+            share.setSite(apkName);
+        share.show(this);
     }
 
     private Toast toast;

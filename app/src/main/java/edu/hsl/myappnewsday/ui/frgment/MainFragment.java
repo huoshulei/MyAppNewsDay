@@ -202,8 +202,12 @@ public class MainFragment extends Fragment {
             @Override
             public void OnItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
-                Log.d(TAG, "OnItemClick: " + adapter.getData().get(position).getLink());
-                bundle.putString("URL", adapter.getData().get(position).getLink());
+//                Log.d(TAG, "OnItemClick: " + adapter.getData().get(position).getLink());
+//                bundle.putString("URL", adapter.getData().get(position).getLink());
+//                bundle.putString("TITLE", adapter.getData().get(position).getTitle());
+//                bundle.putString("ICON", adapter.getData().get(position).getIcon());
+//                bundle.putString("SUMMARY", adapter.getData().get(position).getSummary());
+                bundle.putParcelable("DATA", adapter.getData().get(position));
                 mMainActivity.startActivity(WebActivity.class, bundle);
                 Toast.makeText(mMainActivity, ">>>正在打开网页请稍后<<<", Toast.LENGTH_SHORT)
                         .show();
