@@ -3,6 +3,7 @@ package edu.hsl.myappnewsday.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -62,7 +63,7 @@ public class NewsBean implements Parcelable {
         }
     };
 
-    public static class Data implements Parcelable {
+    public static class Data implements Parcelable, Serializable {
 
         String summary;
         String icon;
@@ -70,6 +71,17 @@ public class NewsBean implements Parcelable {
         String title;
         String nid;
         String link;
+        byte[] mBitmap;
+
+        public byte[] getBitmap() {
+            return mBitmap;
+        }
+
+        public void setBitmap(byte[] bitmap) {
+            mBitmap = bitmap;
+        }
+
+        public static final long serialVersionUID = 1L;
 
         public String getSummary() {
             return summary;
@@ -154,5 +166,7 @@ public class NewsBean implements Parcelable {
                 return new Data[size];
             }
         };
+
+
     }
 }

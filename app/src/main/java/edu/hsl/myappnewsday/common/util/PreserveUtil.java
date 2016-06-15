@@ -3,6 +3,8 @@ package edu.hsl.myappnewsday.common.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Set;
+
 /**
  * Created by Administrator on 2016/5/30.
  */
@@ -13,6 +15,13 @@ public class PreserveUtil {
         preferences = getPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(key, value);
+        edit.commit();
+    }
+
+    public static void putStringSet(Context context, String key, Set<String> value) {
+        preferences = getPreferences(context);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putStringSet(key, value);
         edit.commit();
     }
 
@@ -33,6 +42,16 @@ public class PreserveUtil {
     public static boolean getBoolean(Context context, String key) {
         preferences = getPreferences(context);
         return preferences.getBoolean(key, true);
+    }
+
+    public static String getString(Context context, String key) {
+        preferences = getPreferences(context);
+        return preferences.getString(key, null);
+    }
+
+    public static Set<String> getStringSet(Context context, String key) {
+        preferences = getPreferences(context);
+        return preferences.getStringSet(key, null);
     }
 
 }

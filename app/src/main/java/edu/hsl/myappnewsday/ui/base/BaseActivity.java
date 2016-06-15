@@ -82,7 +82,8 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void share(String title, String text, String url, String comment, String apkName) {
+    public void share(String title, String text, String url, String imageUrl, String comment, String
+            apkName) {
         ShareSDK.initSDK(this);
         OnekeyShare share = new OnekeyShare();
         share.disableSSOWhenAuthorize();
@@ -95,6 +96,8 @@ public class BaseActivity extends AppCompatActivity {
             share.setTitleUrl(url);
             share.setSiteUrl(url);
         }
+        if (imageUrl != null)
+            share.setImageUrl(imageUrl);
         if (comment != null)
             share.setComment(comment);
         if (apkName != null)

@@ -7,10 +7,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.bean.NewsBean;
+import edu.hsl.myappnewsday.common.util.SerializableUtil;
 import edu.hsl.myappnewsday.ui.base.BaseActivity;
 import edu.hsl.myappnewsday.ui.dialog.MenuDialog;
 import edu.hsl.myappnewsday.ui.snake.TumblrRelativeLayout;
@@ -19,10 +22,11 @@ public class WebActivity extends BaseActivity {
     WebView              mWebView;
     TumblrRelativeLayout trl_menu;
     FragmentManager      mFragmentManager;
-    private String mUrl;
-    MenuDialog    mDialog;
-    NewsBean.Data mData;
-//    FavoriteNews  favNews;
+    //    private String mUrl;
+    MenuDialog           mDialog;
+    NewsBean.Data        mData;
+    //    FavoriteNews  favNews;
+    RequestQueue         mQueue;
 
     //    private static final String TAG = "WebActivity";
     @Override
@@ -31,8 +35,8 @@ public class WebActivity extends BaseActivity {
         mFragmentManager = getSupportFragmentManager();
         initDialog();
         Bundle bundle = getIntent().getExtras();
-        mUrl = bundle.getString("URL");
-//        mData = bundle.getParcelable("DATA");
+//        mUrl = bundle.getString("URL");
+        mData = bundle.getParcelable("DATA");
         mWebView = (WebView) findViewById(R.id.wv_news);
         WebSettings settings = mWebView.getSettings();
         trl_menu = (TumblrRelativeLayout) findViewById(R.id.trl_menu);
@@ -62,10 +66,20 @@ public class WebActivity extends BaseActivity {
                 trl_menu.setImageViewList();
                 switch (position) {
                     case 0:
-
+                        share(mData.getTitle(), mData.getSummary(), mData.getLink(), mData.getIcon()
+                                , null, getPackageName());
 //                        favNews.favNews();
                         break;
                     case 1:
+                        if (mQueue == null)
+                            mQueue = Volley.newRequestQueue(getApplicationContext());
+                        SerializableUtil.getBitmap(WebActivity.this,
+                                mData, mQueue);
+                        Toast.makeText(WebActivity.this, "点你大姨夫", Toast.LENGTH_SHORT).show();
+//                        if (serialize != null)
+//                            Toast.makeText(WebActivity.this, "收藏成功!", Toast.LENGTH_SHORT).show();
+//                        PreserveUtil.putString(getApplicationContext(), mData.getNid(),
+//                                serialize);
                         break;
                     case 2:
                         break;
@@ -86,10 +100,8 @@ public class WebActivity extends BaseActivity {
     public void initData() {
 //        Log.d(TAG, "initData: "+mUrl);
         super.initData();
-        mWebView.loadUrl(mUrl);
+        mWebView.loadUrl(mData.getLink());
     }
 
-//    public interface FavoriteNews {
-//        void favNews();
-//    }
+
 }

@@ -84,7 +84,7 @@ public class RightFragment extends Fragment {
                         break;
                     case R.id.tv_share:
                         mMainActivity.share("分享", "这货就是一个显示的内容", "https://github.com/huoshulei",
-                                "评论的内容", "应用名字");
+                                null, "评论的内容", "应用名字");
 //                        ShareUtil.shareTextWithImage(getActivity(), "10000000000000000",
 //                                "200000000000", "300000000",
 //                                "http://www.eoeandroid" +

@@ -46,7 +46,7 @@ public class MainFragment extends Fragment {
     RequestQueue        mQueue;
     int                 title_id;
     ImageLoader         mLoader;
-    private NewsBean mBean;
+
 
     //    SwipeToLoadLayout mSwipeToLoadLayout;
 //    TextView           headerText;
@@ -195,7 +195,7 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * Item点击事件
+     * Item点击事件 跳转
      */
     @NonNull
     private NewsAdapter.OnItemClickListener getOnItemClickListener() {
@@ -204,11 +204,11 @@ public class MainFragment extends Fragment {
             public void OnItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
 //                Log.d(TAG, "OnItemClick: " + adapter.getData().get(position).getLink());
-                bundle.putString("URL", adapter.getData().get(position).getLink());
+//                bundle.putString("URL", adapter.getData().get(position).getLink());
 ////                bundle.putString("TITLE", adapter.getData().get(position).getTitle());
 ////                bundle.putString("ICON", adapter.getData().get(position).getIcon());
 ////                bundle.putString("SUMMARY", adapter.getData().get(position).getSummary());
-//                bundle.putParcelable("DATA", adapter.getData().get(position));
+                bundle.putParcelable("DATA", adapter.getData().get(position));
                 mMainActivity.startActivity(WebActivity.class, bundle);
                 Toast.makeText(mMainActivity, ">>>正在打开网页请稍后<<<", Toast.LENGTH_SHORT)
                         .show();
@@ -252,8 +252,8 @@ public class MainFragment extends Fragment {
 //        mRecyclerView.addFootView(footerView);
 //        mRecyclerView.setColor(Color.RED, Color.BLUE);
         mSwipeRefreshLayout.setOnRefreshListener(getRefreshListener());
-        if (adapter==null)
-        adapter = new NewsAdapter(getActivity(), mLoader);
+        if (adapter == null)
+            adapter = new NewsAdapter(getActivity(), mLoader);
 //        if (mBean != null)
 //            adapter.add(mBean.getData());
         mRecyclerView.setAdapter(adapter);
@@ -325,7 +325,7 @@ public class MainFragment extends Fragment {
 
             @Override
             protected void onPostExecute(String s) {
-                mBean = mMainActivity.mJsonUtil.getNewsBean(s);
+                NewsBean mBean = mMainActivity.mJsonUtil.getNewsBean(s);
                 adapter.add(mBean.getData());
                 adapter.upData();
                 super.onPostExecute(s);
