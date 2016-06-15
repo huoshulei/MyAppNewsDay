@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ import edu.hsl.myappnewsday.ui.adapter.NewsAdapter;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment {
-    private static final String TAG = "MainFragment";
 
     MainActivity mMainActivity;
     int newsId = 0;//新闻分类id
@@ -46,7 +44,7 @@ public class MainFragment extends Fragment {
     RequestQueue        mQueue;
     int                 title_id;
     ImageLoader         mLoader;
-
+    String              title;
 
     //    SwipeToLoadLayout mSwipeToLoadLayout;
 //    TextView           headerText;
@@ -64,10 +62,11 @@ public class MainFragment extends Fragment {
 //    float x1 = 0, x2 = 0;//点击屏幕按下与弹起点的坐标
 //    float y1 = 0, y2 = 0;
 //    float praentX = 0;//获得子布局相对于屏幕的偏移量
-    public static MainFragment newInstance(int title) {
+    public static MainFragment newInstance(int titleid, String title) {
         Bundle       args     = new Bundle();
         MainFragment fragment = new MainFragment();
-        args.putInt("NEWS_ID", title);
+        args.putInt("NEWS_ID", titleid);
+        args.putString("NEWS_TITLE", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,7 +94,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+//        mMainActivity.tv_title.setText(getArguments().getString("NEWS_TITLE"));
         // Inflate the layout for this fragment
 
 //        mGestureDetector = new GestureDetector(getActivity(), new MyOnGestureListener());
@@ -318,7 +317,6 @@ public class MainFragment extends Fragment {
              * */
             @Override
             protected String doInBackground(String... params) {
-                Log.d(TAG, "onCreateView: 这个是什么鬼" + newsId);
                 return mMainActivity.mUtil.getData(params[0]);
 
             }

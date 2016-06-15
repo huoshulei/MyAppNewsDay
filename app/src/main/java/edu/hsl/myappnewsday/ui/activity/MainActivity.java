@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import edu.hsl.myappnewsday.R;
 import edu.hsl.myappnewsday.ui.base.BaseActivity;
@@ -17,13 +18,13 @@ import edu.hsl.myappnewsday.ui.frgment.NewsFragment;
 import edu.hsl.myappnewsday.ui.frgment.RightFragment;
 
 public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
     RelativeLayout fl_main;
     RelativeLayout fl_left;
     RelativeLayout fl_right;
     RelativeLayout rl_title;
     ImageView      iv_home;
     ImageView      iv_share;
+    public TextView tv_title;
     boolean isFirst        = true;
     boolean isFirstKeyBack = true;
     boolean isMenuShow     = false;
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity {
         fl_left = (RelativeLayout) findViewById(R.id.ll_left);
         fl_right = (RelativeLayout) findViewById(R.id.ll_right);
         rl_title = (RelativeLayout) findViewById(R.id.rl_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         iv_home = (ImageView) findViewById(R.id.iv_home);
         iv_share = (ImageView) findViewById(R.id.iv_share);
         onPreDraw();

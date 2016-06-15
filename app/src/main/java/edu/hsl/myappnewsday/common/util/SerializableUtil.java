@@ -27,11 +27,12 @@ import edu.hsl.myappnewsday.bean.NewsBean;
  * Created by Administrator on 2016/6/15.
  */
 public class SerializableUtil {
-    /**
-     * 序列化对象
-     */
+
     static Set<String> nids;
 
+    /**
+     * 读取本地保存的数据
+     */
     public static Set<String> getNids(Context context, String key) {
         nids = PreserveUtil.getStringSet(context, key);
         if (nids == null)
@@ -39,6 +40,9 @@ public class SerializableUtil {
         return nids;
     }
 
+    /**
+     * 序列化对象
+     */
     public static void serialize(Context context, NewsBean.Data data) {
 //        getBitmap(context, data, queue);
         String serStr = null;
@@ -61,7 +65,7 @@ public class SerializableUtil {
             }
 //            }
             nids.add(serStr);
-            PreserveUtil.putStringSet(context, "FAVORITE", SerializableUtil.nids);
+            PreserveUtil.putStringSet(context, "FAVORITE", nids);
             Toast.makeText(context, "收藏成功!", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,6 +92,9 @@ public class SerializableUtil {
         return data;
     }
 
+    /**
+     * 请求网络图片 缓存到本地以供收藏
+     */
     public static void getBitmap(final Context context, final NewsBean.Data data, RequestQueue
             queue) {
         ImageRequest request = new ImageRequest(data.getIcon(), new Response.Listener<Bitmap>() {
@@ -107,12 +114,18 @@ public class SerializableUtil {
         queue.add(request);
     }
 
+    /**
+     * bitmap转换成字节数组 供 序列化使用
+     */
     public static byte[] getBytes(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
 
+    /**
+     * 字节数组转换成bitmap
+     */
     public static Bitmap getBitmap(byte[] bytes) {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }

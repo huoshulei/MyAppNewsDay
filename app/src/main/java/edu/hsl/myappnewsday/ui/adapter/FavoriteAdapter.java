@@ -10,7 +10,10 @@ import edu.hsl.myappnewsday.bean.NewsBean;
 import edu.hsl.myappnewsday.common.util.SerializableUtil;
 
 /**
- * Created by Administrator on 2016/6/15.
+ * Created by Administrator on 2016/6/15..
+ * 这货就是个adapter
+ * 贼简单
+ * 贼简单
  */
 public class FavoriteAdapter extends BaseQuickAdapter<NewsBean.Data> {
 

@@ -21,7 +21,6 @@ import edu.hsl.myappnewsday.ui.activity.MainActivity;
  * A simple {@link Fragment} subclass.
  */
 public class LeftFragment extends Fragment {
-    private static final String TAG = "LeftFragment";
     RelativeLayout      rl_news;
     RelativeLayout      rl_favorite;
     RelativeLayout      rl_local;
@@ -89,6 +88,7 @@ public class LeftFragment extends Fragment {
                             if (fragment == null)
                                 fragment = new NewsFragment();
                             mTransaction.replace(R.id.fl_news, fragment);
+                            mTransaction.addToBackStack(null);
                             mTransaction.commit();
                             mMainActivity.currentFragment = mMainActivity.mNewsFragment;
                         }

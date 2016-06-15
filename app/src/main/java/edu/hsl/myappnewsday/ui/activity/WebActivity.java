@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -28,7 +27,6 @@ public class WebActivity extends BaseActivity {
     //    FavoriteNews  favNews;
     RequestQueue         mQueue;
 
-    //    private static final String TAG = "WebActivity";
     @Override
     public void initView() {
         setContentView(R.layout.activity_web);
@@ -75,7 +73,6 @@ public class WebActivity extends BaseActivity {
                             mQueue = Volley.newRequestQueue(getApplicationContext());
                         SerializableUtil.getBitmap(WebActivity.this,
                                 mData, mQueue);
-                        Toast.makeText(WebActivity.this, "点你大姨夫", Toast.LENGTH_SHORT).show();
 //                        if (serialize != null)
 //                            Toast.makeText(WebActivity.this, "收藏成功!", Toast.LENGTH_SHORT).show();
 //                        PreserveUtil.putString(getApplicationContext(), mData.getNid(),
@@ -90,7 +87,6 @@ public class WebActivity extends BaseActivity {
                     case 5:
                         break;
                 }
-                Toast.makeText(WebActivity.this, "点你妹啊!!!" + position, Toast.LENGTH_SHORT).show();
             }
         };
     }

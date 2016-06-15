@@ -15,6 +15,7 @@ import edu.hsl.myappnewsday.ui.base.BaseAdapter;
 
 /**
  * Created by Administrator on 2016/5/31.
+ * 新闻主页的adapter
  */
 public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHolder> {
     private static final String TAG              = "NewsAdapter";
@@ -35,6 +36,9 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
         mLoader = loader;
     }
 
+    /**
+     * 根据item角标 返回 item格式
+     */
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
@@ -44,6 +48,9 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
         }
     }
 
+    /**
+     * 增加一个上拉加载
+     */
     @Override
     public int getItemCount() {
         return data.size() + 1;
@@ -58,6 +65,9 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
         return new ViewHolder(mInflater.inflate(R.layout.layout_news_item, parent, false));
     }
 
+    /**
+     * item的点击事件
+     */
     public interface OnItemClickListener {
         void OnItemClick(View view, int position);
     }
@@ -104,6 +114,9 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
         }
     }
 
+    /**
+     * 用于判断上啦状态的
+     */
     public void changeMoreStatus(int status) {
         load_more_status = status;
     }
@@ -124,6 +137,9 @@ public class NewsAdapter extends BaseAdapter<NewsBean.Data, BaseAdapter.ViewHold
         }
     }
 
+    /**
+     * 加载更多view
+     */
     class FooterViewHolder extends BaseAdapter.ViewHolder {
         ProgressBar pb_load;
         TextView    tv_load;

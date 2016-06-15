@@ -15,21 +15,21 @@ public class PreserveUtil {
         preferences = getPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString(key, value);
-        edit.commit();
+        edit.apply();
     }
 
     public static void putStringSet(Context context, String key, Set<String> value) {
         preferences = getPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putStringSet(key, value);
-        edit.commit();
+        edit.apply();
     }
 
     public static void putBoolean(Context context, String key, boolean value) {
         preferences = getPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putBoolean(key, value);
-        edit.commit();
+        edit.apply();
     }
 
     private static SharedPreferences getPreferences(Context context) {

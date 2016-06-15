@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.hsl.myappnewsday.R;
+import edu.hsl.myappnewsday.ui.activity.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewsFragment extends Fragment {
-    private static final String TAG = "NewsFragment";
-    TabLayout tabs;
+    TabLayout    tabs;
     //    Fragment  mFragment;
-    Adapter   mAdapter;
-    ViewPager mViewPager;
+    Adapter      mAdapter;
+    ViewPager    mViewPager;
+    MainActivity mMainActivity;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -37,7 +37,7 @@ public class NewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mAdapter = new Adapter(getChildFragmentManager());
         String[] title = getTitle();
-        Log.d(TAG, "onCreate: 这个是什么鬼走了多少次");
+        mMainActivity = (MainActivity) getActivity();
         for (int i = 0; i < title.length; i++) {
             mAdapter.addFragment(getFragment(i), title[i]);
         }
@@ -46,7 +46,7 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: 这个是什么鬼走了多少次");
+        mMainActivity.tv_title.setText("资讯");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news, container, false);
     }
@@ -73,8 +73,8 @@ public class NewsFragment extends Fragment {
      * 并传递=参数
      */
     public Fragment getFragment(int position) {
-        int      title    = position;
-        Fragment fragment = MainFragment.newInstance(title);
+        String   title    = getTitle()[position];
+        Fragment fragment = MainFragment.newInstance(position, title);
         return fragment;
     }
 

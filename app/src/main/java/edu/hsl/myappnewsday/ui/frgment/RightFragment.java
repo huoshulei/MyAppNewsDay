@@ -24,7 +24,6 @@ import edu.hsl.myappnewsday.ui.dialog.UpDateDialog;
  * A simple {@link Fragment} subclass.
  */
 public class RightFragment extends Fragment {
-    private static final String TAG = "RightFragment";
     ImageView    user_icon;
     TextView     tv_land;
     TextView     tv_update;
