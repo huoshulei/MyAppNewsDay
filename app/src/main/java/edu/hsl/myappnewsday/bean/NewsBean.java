@@ -44,14 +44,15 @@ public class NewsBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeList(data);
+        dest.writeTypedList(data);
+
     }
 
     public static final Creator<NewsBean> CREATOR = new Creator<NewsBean>() {
         @Override
         public NewsBean createFromParcel(Parcel source) {
             NewsBean bean = new NewsBean();
-//            bean.setData(source.l);
+            bean.setData(source.createTypedArrayList(Data.CREATOR));
             return bean;
         }
 
@@ -61,7 +62,7 @@ public class NewsBean implements Parcelable {
         }
     };
 
-    public class Data {
+    public static class Data implements Parcelable {
 
         String summary;
         String icon;
@@ -119,5 +120,39 @@ public class NewsBean implements Parcelable {
         }
 
 
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(summary);
+            dest.writeString(icon);
+            dest.writeString(stamp);
+            dest.writeString(title);
+            dest.writeString(nid);
+            dest.writeString(link);
+
+        }
+
+        public static Creator<Data> CREATOR = new Creator<Data>() {
+            @Override
+            public Data createFromParcel(Parcel source) {
+                Data data = new Data();
+                data.summary = source.readString();
+                data.icon = source.readString();
+                data.stamp = source.readString();
+                data.title = source.readString();
+                data.nid = source.readString();
+                data.link = source.readString();
+                return data;
+            }
+
+            @Override
+            public Data[] newArray(int size) {
+                return new Data[size];
+            }
+        };
     }
 }

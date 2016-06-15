@@ -46,6 +46,7 @@ public class MainFragment extends Fragment {
     RequestQueue        mQueue;
     int                 title_id;
     ImageLoader         mLoader;
+    private NewsBean mBean;
 
     //    SwipeToLoadLayout mSwipeToLoadLayout;
 //    TextView           headerText;
@@ -88,13 +89,13 @@ public class MainFragment extends Fragment {
         mMainActivity = (MainActivity) getActivity();
         this.title_id = getArguments().getInt("NEWS_ID");
         newsId = title_id + 1;//对应的新闻类型ID
-        Log.d(TAG, "onCreate: 这个是什么鬼" + newsId);
+        initData(mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: 这个是什么鬼" + newsId);
+
         // Inflate the layout for this fragment
 
 //        mGestureDetector = new GestureDetector(getActivity(), new MyOnGestureListener());
@@ -185,7 +186,7 @@ public class MainFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_news_item);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_news);
 //        Log.d(TAG, "onViewCreated:新闻id " + newsId);
-        initData(mMainActivity.mUtil.getUri("1", "1", "1", "1", "20150520", "20"));
+
         initView();
 //        mSwipeToLoadLayout.setOnRefreshListener(getRefreshListener());
 //        mSwipeToLoadLayout.setOnLoadMoreListener(getLoadListener());
@@ -203,11 +204,11 @@ public class MainFragment extends Fragment {
             public void OnItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
 //                Log.d(TAG, "OnItemClick: " + adapter.getData().get(position).getLink());
-//                bundle.putString("URL", adapter.getData().get(position).getLink());
-//                bundle.putString("TITLE", adapter.getData().get(position).getTitle());
-//                bundle.putString("ICON", adapter.getData().get(position).getIcon());
-//                bundle.putString("SUMMARY", adapter.getData().get(position).getSummary());
-                bundle.putParcelable("DATA", adapter.getData().get(position));
+                bundle.putString("URL", adapter.getData().get(position).getLink());
+////                bundle.putString("TITLE", adapter.getData().get(position).getTitle());
+////                bundle.putString("ICON", adapter.getData().get(position).getIcon());
+////                bundle.putString("SUMMARY", adapter.getData().get(position).getSummary());
+//                bundle.putParcelable("DATA", adapter.getData().get(position));
                 mMainActivity.startActivity(WebActivity.class, bundle);
                 Toast.makeText(mMainActivity, ">>>正在打开网页请稍后<<<", Toast.LENGTH_SHORT)
                         .show();
@@ -251,8 +252,12 @@ public class MainFragment extends Fragment {
 //        mRecyclerView.addFootView(footerView);
 //        mRecyclerView.setColor(Color.RED, Color.BLUE);
         mSwipeRefreshLayout.setOnRefreshListener(getRefreshListener());
+        if (adapter==null)
         adapter = new NewsAdapter(getActivity(), mLoader);
+//        if (mBean != null)
+//            adapter.add(mBean.getData());
         mRecyclerView.setAdapter(adapter);
+        adapter.upData();
     }
 
     /**
@@ -304,6 +309,7 @@ public class MainFragment extends Fragment {
 //        });
     }
 
+
     public void initData(String uri) {
 
         new AsyncTask<String, Void, String>() {
@@ -312,14 +318,15 @@ public class MainFragment extends Fragment {
              * */
             @Override
             protected String doInBackground(String... params) {
+                Log.d(TAG, "onCreateView: 这个是什么鬼" + newsId);
                 return mMainActivity.mUtil.getData(params[0]);
 
             }
 
             @Override
             protected void onPostExecute(String s) {
-                NewsBean bean = mMainActivity.mJsonUtil.getNewsBean(s);
-                adapter.add(bean.getData());
+                mBean = mMainActivity.mJsonUtil.getNewsBean(s);
+                adapter.add(mBean.getData());
                 adapter.upData();
                 super.onPostExecute(s);
             }

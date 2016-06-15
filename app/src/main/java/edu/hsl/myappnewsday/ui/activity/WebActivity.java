@@ -22,6 +22,7 @@ public class WebActivity extends BaseActivity {
     private String mUrl;
     MenuDialog    mDialog;
     NewsBean.Data mData;
+//    FavoriteNews  favNews;
 
     //    private static final String TAG = "WebActivity";
     @Override
@@ -30,8 +31,8 @@ public class WebActivity extends BaseActivity {
         mFragmentManager = getSupportFragmentManager();
         initDialog();
         Bundle bundle = getIntent().getExtras();
-//        mUrl = bundle.getString("URL");
-        mData = bundle.getParcelable("DATA");
+        mUrl = bundle.getString("URL");
+//        mData = bundle.getParcelable("DATA");
         mWebView = (WebView) findViewById(R.id.wv_news);
         WebSettings settings = mWebView.getSettings();
         trl_menu = (TumblrRelativeLayout) findViewById(R.id.trl_menu);
@@ -62,6 +63,7 @@ public class WebActivity extends BaseActivity {
                 switch (position) {
                     case 0:
 
+//                        favNews.favNews();
                         break;
                     case 1:
                         break;
@@ -84,7 +86,10 @@ public class WebActivity extends BaseActivity {
     public void initData() {
 //        Log.d(TAG, "initData: "+mUrl);
         super.initData();
-        mWebView.loadUrl(mData.getLink());
+        mWebView.loadUrl(mUrl);
     }
 
+//    public interface FavoriteNews {
+//        void favNews();
+//    }
 }
