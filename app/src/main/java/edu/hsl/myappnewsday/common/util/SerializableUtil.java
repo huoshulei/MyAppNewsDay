@@ -3,7 +3,6 @@ package edu.hsl.myappnewsday.common.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.ArraySet;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -18,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashSet;
 import java.util.Set;
 
 import edu.hsl.myappnewsday.R;
@@ -35,8 +35,7 @@ public class SerializableUtil {
      */
     public static Set<String> getNids(Context context, String key) {
         nids = PreserveUtil.getStringSet(context, key);
-        if (nids == null)
-            nids = new ArraySet<>();
+        nids = new HashSet<>(nids);
         return nids;
     }
 

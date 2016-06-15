@@ -53,5 +53,11 @@ public class PreserveUtil {
         preferences = getPreferences(context);
         return preferences.getStringSet(key, null);
     }
+//    public static void getStringSe0t(Context context, String key) {
+//        SharedPreferences.Editor edit = preferences.edit();
+//        edit.putStringSet("",<span style="font-family: Arial, Helvetica, sans-serif;">newReadIdSet </span><span style="font-family: Arial, Helvetica, sans-serif;">);</span>
+//                edit.apply();
+//
+//    }
 
 }
