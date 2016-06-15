@@ -38,6 +38,7 @@ public class WebActivity extends BaseActivity {
         mWebView = (WebView) findViewById(R.id.wv_news);
         WebSettings settings = mWebView.getSettings();
         trl_menu = (TumblrRelativeLayout) findViewById(R.id.trl_menu);
+        /**蛇形动画的点击事件*/
         trl_menu.setMenuListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +51,7 @@ public class WebActivity extends BaseActivity {
 
             }
         });
+        //这几个是设置 平铺和缩进的
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setSupportZoom(true);
@@ -57,6 +59,9 @@ public class WebActivity extends BaseActivity {
         super.initView();
     }
 
+    /**
+     * 弹窗的点击事件
+     */
     private void initDialog() {
         mDialog = new MenuDialog(getApplicationContext(), mFragmentManager) {
             @Override
@@ -91,7 +96,9 @@ public class WebActivity extends BaseActivity {
         };
     }
 
-
+    /**
+     * 加载网页数据
+     */
     @Override
     public void initData() {
 //        Log.d(TAG, "initData: "+mUrl);

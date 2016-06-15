@@ -19,15 +19,17 @@ import java.io.InputStreamReader;
  */
 public class UrlUtil {
     String newsData;
-    private static final String TAG = "UrlUtil";
 
     public UrlUtil() {
 
     }
 
+    /**
+     * 拼接地址
+     */
     public String getUri(String ver, String subid, String dir, String nid, String stamp,
                          String
-            cnt) {
+                                 cnt) {
         String uri = Uri.parse(CommonUtil.NETPATH_NEWS).buildUpon()
                 .appendQueryParameter("ver", ver)
                 .appendQueryParameter("subid", subid)
@@ -39,6 +41,9 @@ public class UrlUtil {
         return uri;
     }
 
+    /**
+     * 读取网络数据
+     */
     public String getData(String uri) {
         StringBuffer sb = new StringBuffer();
 

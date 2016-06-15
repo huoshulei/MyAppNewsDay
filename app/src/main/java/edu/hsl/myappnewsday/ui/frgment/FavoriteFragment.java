@@ -60,6 +60,9 @@ public class FavoriteFragment extends Fragment {
         return view;
     }
 
+    /**
+     * 加载本地数据
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);

@@ -22,6 +22,7 @@ import edu.hsl.myappnewsday.ui.dialog.UpDateDialog;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 右侧菜单栏
  */
 public class RightFragment extends Fragment {
     ImageView    user_icon;

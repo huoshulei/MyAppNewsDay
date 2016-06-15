@@ -17,6 +17,7 @@ import edu.hsl.myappnewsday.R;
 
 /**
  * Created by Administrator on 2016/6/6.
+ * 注册弹窗
  */
 public class MyDialog extends BaseAlertDialog<MyDialog> {
     @BindView(R.id.et_name)

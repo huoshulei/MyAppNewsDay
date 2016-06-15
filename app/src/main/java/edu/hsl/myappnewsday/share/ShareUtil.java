@@ -7,6 +7,8 @@ import android.util.Log;
 
 /**
  * Created by Administrator on 2016/6/12.
+ * intent的一个分享方法
+ * 废弃了
  */
 public class ShareUtil {
     private static final String TAG = "ShareUtil";

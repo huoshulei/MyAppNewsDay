@@ -9,16 +9,19 @@ import edu.hsl.myappnewsday.ui.base.BaseActivity;
 import edu.hsl.myappnewsday.ui.frgment.CartoonFragment;
 import edu.hsl.myappnewsday.ui.frgment.LeadFragment;
 
-
+/**
+ * 开机动画的一个类
+ */
 public class LeadActivity extends BaseActivity {
     LeadFragment frag_lead;
-    boolean isFirstRun = true;
+    boolean isFirstRun = true;//判断是否首次运行
     CartoonFragment cartoon;
 
 
     @Override
     public void initView() {
         setContentView(R.layout.activity_lead);
+        //读取记录值
         isFirstRun = PreserveUtil.getBoolean(getApplicationContext(), "isFirstRun");
         setDefaultFragment();
         super.initView();

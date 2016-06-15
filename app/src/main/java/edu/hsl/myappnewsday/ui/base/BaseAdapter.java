@@ -13,7 +13,6 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T, VH extends BaseAdapter.ViewHolder> extends RecyclerView
         .Adapter<VH> {
-    private static final String  TAG  = "BaseAdapter";
     public               List<T> data = new ArrayList<>();
     public LayoutInflater mInflater;
 

@@ -7,6 +7,7 @@ import com.android.volley.toolbox.ImageLoader.ImageCache;
 
 /**
  * Created by Administrator on 2016/6/5.
+ * 这是个 异步加载图片的辅助类 内存最大占用为10M图片
  */
 public class BitmpCacheUtil implements ImageCache {
     private LruCache<String, Bitmap> mCache;

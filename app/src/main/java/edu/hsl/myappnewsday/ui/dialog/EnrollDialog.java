@@ -15,7 +15,8 @@ import butterknife.OnClick;
 import edu.hsl.myappnewsday.R;
 
 /**
- * Created by Administrator on 2016/6/6.
+ * Created by Administrator on 2016/6/6.+
+ * 注册弹窗
  */
 public class EnrollDialog extends BaseAlertDialog<EnrollDialog> {
     @BindView(R.id.et_name)
@@ -52,8 +53,8 @@ public class EnrollDialog extends BaseAlertDialog<EnrollDialog> {
         switch (view.getId()) {
             case R.id.tv_back:
                 MyDialog dialog = new MyDialog(mContext);
-                dialog.showAnim(new BounceTopEnter());
-                dialog.dismissAnim(new FadeExit());
+                dialog.showAnim(new BounceTopEnter());//弹窗动画
+                dialog.dismissAnim(new FadeExit());//弹窗关闭动画
                 dialog.show();
                 this.dismiss();
                 break;

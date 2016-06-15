@@ -19,6 +19,7 @@ import edu.hsl.myappnewsday.ui.activity.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 左侧菜单栏
  */
 public class LeftFragment extends Fragment {
     RelativeLayout      rl_news;

@@ -13,6 +13,7 @@ import edu.hsl.myappnewsday.R;
 
 /**
  * Created by Administrator on 2016/6/12.
+ * 自定义分享弹窗  废弃
  */
 public class ShareDialog extends TopBaseDialog<ShareDialog> {
     @BindView(R.id.ll_share_qq)

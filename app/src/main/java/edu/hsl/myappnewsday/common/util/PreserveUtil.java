@@ -7,6 +7,7 @@ import java.util.Set;
 
 /**
  * Created by Administrator on 2016/5/30.
+ * 本地储存一些值
  */
 public class PreserveUtil {
     static SharedPreferences preferences;
@@ -55,7 +56,8 @@ public class PreserveUtil {
     }
 //    public static void getStringSe0t(Context context, String key) {
 //        SharedPreferences.Editor edit = preferences.edit();
-//        edit.putStringSet("",<span style="font-family: Arial, Helvetica, sans-serif;">newReadIdSet </span><span style="font-family: Arial, Helvetica, sans-serif;">);</span>
+//        edit.putStringSet("",<span style="font-family: Arial, Helvetica, sans-serif;
+// ">newReadIdSet </span><span style="font-family: Arial, Helvetica, sans-serif;">);</span>
 //                edit.apply();
 //
 //    }

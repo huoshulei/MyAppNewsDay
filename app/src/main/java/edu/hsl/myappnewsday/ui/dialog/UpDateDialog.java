@@ -22,6 +22,8 @@ import is.arontibo.library.ElasticDownloadView;
 
 /**
  * Created by Administrator on 2016/6/7.
+ * 软件更新弹窗
+ * 只有动画效果
  */
 public class UpDateDialog extends BaseAlertDialog<UpDateDialog> {
 

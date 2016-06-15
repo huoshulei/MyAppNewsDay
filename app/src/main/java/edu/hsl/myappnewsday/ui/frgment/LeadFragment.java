@@ -19,6 +19,7 @@ import edu.hsl.myappnewsday.ui.adapter.ViewPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 开机引导页面
  */
 public class LeadFragment extends Fragment {
     ImageView icon1, icon2, icon3, icon4;

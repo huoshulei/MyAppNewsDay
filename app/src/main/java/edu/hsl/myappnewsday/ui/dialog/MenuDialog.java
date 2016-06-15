@@ -17,6 +17,7 @@ import edu.hsl.myappnewsday.R;
 
 /**
  * Created by Administrator on 2016/6/14.
+ * 新闻详情页面右侧菜单
  */
 public abstract class MenuDialog {
     Context         mContext;

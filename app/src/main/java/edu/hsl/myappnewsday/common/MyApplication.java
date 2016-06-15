@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 /**
  * Created by Administrator on 2016/5/30.
+ * 也没用到
  */
 public class MyApplication extends Application {
     private HashMap<String, Object> allData = new HashMap<>();

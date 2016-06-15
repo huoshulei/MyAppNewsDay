@@ -72,6 +72,9 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(action, null, null);
     }
 
+    /**
+     * 跳转
+     */
     public void startActivity(String action, Bundle bundle, Uri uri) {
         Intent intent = new Intent(action);
         if (bundle != null)
@@ -82,6 +85,9 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * shareSDK的分享
+     */
     public void share(String title, String text, String url, String imageUrl, String comment, String
             apkName) {
         ShareSDK.initSDK(this);

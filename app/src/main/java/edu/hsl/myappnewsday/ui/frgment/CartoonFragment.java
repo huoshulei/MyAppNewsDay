@@ -16,6 +16,7 @@ import edu.hsl.myappnewsday.ui.activity.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 开机动画
  */
 public class CartoonFragment extends Fragment {
 

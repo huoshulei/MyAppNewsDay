@@ -2,6 +2,7 @@ package edu.hsl.myappnewsday.common;
 
 /**
  * Created by Administrator on 2016/5/30.
+ * 这货没用
  */
 public class Log {
     private static final String  TAG     = "新闻管理log日志";
