@@ -76,7 +76,6 @@ public class LeftFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_news:
-
                         if (mMainActivity.mNewsFragment != mMainActivity.currentFragment) {
 //                            if (mMainActivity.mNewsFragment == null) {
 //                                mMainActivity.mNewsFragment = new NewsFragment();
@@ -85,24 +84,22 @@ public class LeftFragment extends Fragment {
 //                            mTransaction.replace(R.id.fl_news, mMainActivity.mNewsFragment);
 //                            mTransaction.commit();
 //                            Log.d(TAG, "onClick: 什么时候走的");
-                            Fragment fragment = mMainActivity.mNewsFragment;
-                            if (fragment == null)
-                                fragment = new NewsFragment();
-                            mTransaction.replace(R.id.fl_news, fragment);
+                            if (mMainActivity.mNewsFragment == null)
+                                mMainActivity.mNewsFragment = new NewsFragment();
+                            mTransaction.replace(R.id.fl_news, mMainActivity.mNewsFragment);
                             mTransaction.addToBackStack(null);
                             mTransaction.commit();
                             mMainActivity.currentFragment = mMainActivity.mNewsFragment;
                         }
                         break;
                     case R.id.rl_favorite:
-                        Fragment fragment = mFavoriteFragment;
-                        if (fragment != mMainActivity.currentFragment) {
-                            if (fragment == null)
-                                fragment = new FavoriteFragment();
-                            mTransaction.replace(R.id.fl_news, fragment);
+                        if (mFavoriteFragment != mMainActivity.currentFragment) {
+                            if (mFavoriteFragment == null)
+                                mFavoriteFragment = new FavoriteFragment();
+                            mTransaction.replace(R.id.fl_news, mFavoriteFragment);
                             mTransaction.addToBackStack(null);
                             mTransaction.commit();
-                            mMainActivity.currentFragment = fragment;
+                            mMainActivity.currentFragment = mFavoriteFragment;
                         }
                         break;
                     case R.id.rl_comment:
