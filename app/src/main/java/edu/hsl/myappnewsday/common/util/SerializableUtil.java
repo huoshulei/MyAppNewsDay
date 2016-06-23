@@ -35,7 +35,11 @@ public class SerializableUtil {
      */
     public static Set<String> getNids(Context context, String key) {
         nids = PreserveUtil.getStringSet(context, key);
-        nids = new HashSet<>(nids);
+        if (nids == null) {
+            nids = new HashSet<>();
+        } else {
+            nids = new HashSet<>(nids);
+        }
         return nids;
     }
 
